@@ -1,0 +1,3 @@
+targets:
+  dev: local/cjaae36c600430180z9e63t9a
+  default: dev
