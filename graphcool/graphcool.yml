@@ -19,12 +19,18 @@ types: ./types.graphql
 
 
 functions:
-  hello:
+  facebookAuthentication:
     handler:
-      code: src/hello.js
+      code:
+        src: ./src/facebook/facebookAuthentication.ts
     type: resolver
-    schema: src/hello.graphql
-
+    schema: ./src/facebook/facebookAuthentication.graphql
+  loggedInUser:
+    handler:
+      code:
+        src: ./src/facebook/loggedInUser.ts
+    type: resolver
+    schema: ./src/facebook/loggedInUser.graphql
 
 # Model/Relation permissions are used to limit the API access
 # To take the burden of thinking about those while development, we

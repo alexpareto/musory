@@ -5,7 +5,7 @@ import checkLoggedIn from '../lib/checkLoggedIn';
 import FacebookLogin from '../components/FacebookLogin';
 
 /*
-* landing/login page
+* Feed/home page
 *
 */
 
