@@ -40,6 +40,11 @@ functions:
 permissions:
   - operation: Post.read
 
+  - operation: User.read
+    fields:
+      - posts
+      - id
+
   - operation: Post.create
     authenticated: true
 
