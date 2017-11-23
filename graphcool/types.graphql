@@ -1,14 +1,11 @@
 type User @model {
   # Required system field:
   id: ID! @isUnique # read-only (managed by Graphcool)
-
   # Optional system fields (remove if not needed):
   createdAt: DateTime! # read-only (managed by Graphcool)
   updatedAt: DateTime! # read-only (managed by Graphcool)
-
   facebookUserId: String @isUnique
   email: String # optional, because it's obtained from Facebook API
-
   # custom fields
   posts: [Post!]! @relation(name: "PostsByUser")
 }
@@ -16,11 +13,9 @@ type User @model {
 type Post @model {
   # Required system field:
   id: ID! @isUnique # read-only (managed by Graphcool)
-
   # Optional system fields (remove if not needed):
   createdAt: DateTime! # read-only (managed by Graphcool)
   updatedAt: DateTime! # read-only (managed by Graphcool)
-
   content: String!
   imageUrl: String
   author: User @relation(name: "PostsByUser")
