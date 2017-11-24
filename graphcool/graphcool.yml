@@ -40,11 +40,6 @@ functions:
 permissions:
   - operation: Post.read
 
-  - operation: User.read
-    fields:
-      - posts
-      - id
-
   - operation: Post.create
     authenticated: true
 
@@ -58,6 +53,34 @@ permissions:
   - operation: Post.delete
     authenticated: true
     query: src/permissions/Post.graphql
+
+  - operation: User.read
+    fields:
+      - posts
+      - id
+      - username
+      - description
+
+  - operation: User.update
+    authenticated: true
+    query: src/permissions/User.graphql:UpdateUserData
+    fields:
+      - email
+      - posts
+      - username
+      - description
+
+  - operation: User.update
+    authenticated: true
+    query: src/permissions/User.graphql:UpdateUserRole
+    fields:
+      - role
+
+  - operation: User.delete
+    authenticated: true
+    query: src/permissions/User.graphql:DeleteUser
+
+
 
 # Your root tokens used for functions to get full access to the API
 # Read more here:
