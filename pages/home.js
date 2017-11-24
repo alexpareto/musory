@@ -6,8 +6,11 @@ import withData from '../lib/withData';
 import redirect from './../lib/redirect';
 import checkLoggedIn from './../lib/checkLoggedIn';
 
+import Layout from './../components/Layout';
 import Post from './../components/Post';
 import CreatePost from './../components/CreatePost';
+import AddUsername from './../components/AddUsername';
+import Header from './../components/Header';
 
 /*
 * Feed/home page
@@ -26,18 +29,31 @@ class Home extends React.Component {
 
   render() {
     if (this.props.data.loading) {
-      return <div>Loading</div>;
+      return <div>loading!</div>;
+    }
+
+    if (!this.props.loggedInUser.username) {
+      return (
+        <Layout>
+          <AddUsername loggedInUser={this.props.loggedInUser} />
+        </Layout>
+      );
     }
 
     return (
-      <div>
-        <div>
+      <Layout>
+        <Header loggedInUser={this.props.loggedInUser} />
+        <div className="container">
           <CreatePost loggedInUser={this.props.loggedInUser} />
           {this.props.data.allPosts.map(post => (
             <Post key={post.id} post={post} />
           ))}
+          <style jsx>{`
+            .container {
+            }
+          `}</style>
         </div>
-      </div>
+      </Layout>
     );
   }
 }
@@ -48,6 +64,10 @@ const ALL_POSTS = gql`
       id
       imageUrl
       content
+      createdAt
+      author {
+        username
+      }
     }
   }
 `;

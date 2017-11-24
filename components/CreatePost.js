@@ -22,13 +22,14 @@ class CreatePost extends React.Component {
     });
   };
 
+  _handleKeyPress = event => {
+    if (event.key === 'Enter') {
+      this._handleCreatePost();
+    }
+  };
+
   _handleCreatePost = async () => {
-    this.setState({
-      content: '',
-    });
-
     const loggedInUser = this.props.loggedInUser;
-
     // don't allow if user is not logged in
     if (!loggedInUser) {
       console.warn('Only logged in users can create new posts');
@@ -37,6 +38,10 @@ class CreatePost extends React.Component {
 
     const { content, imageUrl } = this.state;
     const authorId = loggedInUser.id;
+
+    this.setState({
+      content: '',
+    });
 
     await this.props.CreatePostMutation({
       variables: { content, imageUrl, authorId },
@@ -49,10 +54,41 @@ class CreatePost extends React.Component {
         <div>
           <textarea
             name="content"
+            placeholder="Add an entry..."
             value={this.state.content}
             onChange={this._handleInputChange}
+            onKeyUp={this._handleKeyPress}
           />
-          <button onClick={this._handleCreatePost}>Create Post</button>
+          <style jsx>{`
+            div {
+              max-width: 500px;
+              margin: 0 auto;
+              margin-bottom: 20px;
+              box-sizing: border-box;
+            }
+
+            textarea {
+              width: 100%;
+              display: block;
+              resize: none;
+              border: 1px solid #eee;
+              outline: 0px none transparent;
+              transition: all 0.3s ease;
+              padding: 16px 10px;
+              box-sizing: border-box;
+              border-radius: 3px;
+            }
+
+            textarea:focus,
+            input:focus {
+              outline: 0;
+              border: 1px solid #222;
+            }
+
+            *:focus {
+              outline: 0;
+            }
+          `}</style>
         </div>
       );
     }

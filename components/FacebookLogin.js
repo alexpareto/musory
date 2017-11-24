@@ -88,7 +88,9 @@ class FacebookLogin extends React.Component {
     }
     return (
       <div>
-        <a onClick={this._logout}>Logout</a>
+        <a href="#" onClick={this._logout}>
+          Logout
+        </a>
       </div>
     );
   }

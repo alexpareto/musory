@@ -7,6 +7,7 @@ import checkLoggedIn from './../lib/checkLoggedIn';
 
 import Post from './../components/Post';
 import CreatePost from './../components/CreatePost';
+import Header from './../components/Header';
 
 /*
 * Individual post page
@@ -20,16 +21,20 @@ class PostPage extends React.Component {
   }
 
   onComponentWillMount() {
-    console.log(this.props.data);
     this.props.data.GetPost();
   }
 
   render() {
+    if (this.props.data.loading) {
+      return <div>loading!</div>;
+    }
+
     if (!this.props.data.Post) {
-      return <div>Sorry that post doesn't exist.</div>;
+      return <div>Sorry that entry doesn't exist.</div>;
     }
     return (
       <div>
+        <Header loggedInUser={this.props.loggedInUser} />
         <div>
           <Post post={this.props.data.Post} />
         </div>
