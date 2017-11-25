@@ -8,6 +8,7 @@ import checkLoggedIn from './../lib/checkLoggedIn';
 import Post from './../components/Post';
 import CreatePost from './../components/CreatePost';
 import Header from './../components/Header';
+import Layout from './../components/Layout';
 
 /*
 * Individual post page
@@ -25,39 +26,15 @@ class PostPage extends React.Component {
   }
 
   render() {
-    if (this.props.data.loading) {
-      return <div>loading!</div>;
-    }
-
-    if (!this.props.data.Post) {
-      return <div>Sorry that entry doesn't exist.</div>;
-    }
     return (
-      <div>
+      <Layout>
         <Header loggedInUser={this.props.loggedInUser} />
         <div>
-          <Post post={this.props.data.Post} />
+          <Post id={this.props.url.query.id} />
         </div>
-      </div>
+      </Layout>
     );
   }
 }
 
-const GET_POST = gql`
-  query GetPost($id: ID!) {
-    Post(id: $id) {
-      id
-      imageUrl
-      content
-    }
-  }
-`;
-
-export default withData(
-  graphql(GET_POST, {
-    options: props => ({
-      variables: { id: props.url.query.id },
-      name: 'GetPost',
-    }),
-  })(PostPage),
-);
+export default withData(PostPage);

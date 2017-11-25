@@ -86,13 +86,25 @@ class FacebookLogin extends React.Component {
         </a>
       );
     }
-    return (
-      <div>
-        <a href="#" onClick={this._logout}>
-          Logout
-        </a>
-      </div>
-    );
+
+    if (this.props.showLogout) {
+      return (
+        <div>
+          <a href="#" onClick={this._logout}>
+            Logout
+          </a>
+          <style jsx>{`
+            a {
+              color: #e6e6e6;
+              underline: none;
+              text-decoration: none;
+            }
+          `}</style>
+        </div>
+      );
+    }
+
+    return null;
   }
 }
 

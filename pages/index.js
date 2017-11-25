@@ -2,7 +2,6 @@ import React from 'react';
 import withData from '../lib/withData';
 import checkLoggedIn from '../lib/checkLoggedIn';
 import FacebookLogin from '../components/FacebookLogin';
-import redirect from '../lib/redirect';
 
 import Layout from './../components/Layout';
 
@@ -38,12 +37,21 @@ class Index extends React.Component {
         </section>
         <section>
           <div className="lander-content">
-            <h1>the rules</h1>
-            <h3>1. no likes</h3>
-            <h3>2. no comments, only dm's</h3>
-            <h3>3. no character limits</h3>
-            <h3>4. no titles</h3>
-            <h3>5. put your thoughts center stage</h3>
+            <div className="container">
+              <h1>how it works</h1>
+              <p>
+                TWOL is about sharing your story in your own way. Create an
+                entry for your thoughts, the crazy thing that happened to you
+                last weekend, your fears, your goals, share links, whatever.
+                There are no likes because this isn't about sharing for others -
+                it's about sharing for you.
+              </p>
+              <h3>1. no likes</h3>
+              <h3>2. no comments</h3>
+              <h3>3. no character limits</h3>
+              <h3>4. no titles</h3>
+              <h3>5. all public</h3>
+            </div>
           </div>
           <div className="fb-login">
             <FacebookLogin loggedInUser={this.props.loggedInUser} />
@@ -75,6 +83,10 @@ class Index extends React.Component {
 
           .lander-content h3 {
             font-size: 40px;
+          }
+
+          .lander-content p {
+            font-size: 20px;
           }
         `}</style>
       </Layout>

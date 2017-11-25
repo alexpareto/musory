@@ -50,7 +50,10 @@ class Header extends React.Component {
               {this.renderStory()}
             </div>
             <div className="fb">
-              <FacebookLogin loggedInUser={this.props.loggedInUser} />
+              <FacebookLogin
+                loggedInUser={this.props.loggedInUser}
+                showLogout={true}
+              />
             </div>
           </div>
         </div>

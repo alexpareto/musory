@@ -31,6 +31,12 @@ functions:
         src: ./src/facebook/loggedInUser.ts
     type: resolver
     schema: ./src/facebook/loggedInUser.graphql
+  addPostView:
+    handler:
+      code:
+        src: ./src/functions/addPostView.js
+    type: resolver
+    schema: ./src/functions/addPostView.graphql
 
 # Model/Relation permissions are used to limit the API access
 # To take the burden of thinking about those while development, we
@@ -39,6 +45,12 @@ functions:
 # https://www.graph.cool/docs/reference/auth/authorization/overview-iegoo0heez
 permissions:
   - operation: Post.read
+
+  - operation: Post.read
+    authenticated: true
+    query: src/permissions/Post.graphql
+    fields:
+      - views
 
   - operation: Post.create
     authenticated: true

@@ -1,0 +1,7 @@
+type AddPostViewPayload {
+  id: ID!
+}
+
+extend type Mutation {
+  addPostView(id: ID!): AddPostViewPayload!
+}

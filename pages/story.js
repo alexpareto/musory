@@ -58,7 +58,7 @@ class Story extends React.Component {
           <div className="two-thirds column">
             {this.renderCreatePost()}
             {this.props.data.allPosts.map(post => (
-              <Post key={post.id} post={post} />
+              <Post key={post.id} id={post.id} />
             ))}
           </div>
         </div>
@@ -82,6 +82,7 @@ const GET_USER_POSTS = gql`
       id
       content
       imageUrl
+      views
       author {
         username
         description

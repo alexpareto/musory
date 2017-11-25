@@ -46,7 +46,7 @@ class Home extends React.Component {
         <div className="container">
           <CreatePost loggedInUser={this.props.loggedInUser} />
           {this.props.data.allPosts.map(post => (
-            <Post key={post.id} post={post} />
+            <Post key={post.id} id={post.id} />
           ))}
           <style jsx>{`
             .container {
@@ -65,6 +65,7 @@ const ALL_POSTS = gql`
       imageUrl
       content
       createdAt
+      views
       author {
         username
       }
