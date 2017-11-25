@@ -5,13 +5,20 @@ import gql from 'graphql-tag';
 import moment from 'moment';
 
 import Icon from './Icon';
+import Modal from './Modal';
 
 class Post extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      renderDeleteModal: false,
+    };
+  }
   componentDidMount() {
     /*
     this.props
       .addViewMutation({
-        variables: { id: this.props.post.id },
+        variables: { id: this.props.data.Post.id },
       })
       .then(response => {
         console.log('add view success!');
@@ -19,8 +26,71 @@ class Post extends React.Component {
       .catch(error => {
         console.error(error);
       });
+
     */
   }
+
+  _renderDeleteIcon = () => {
+    if (
+      this.props.loggedInUser &&
+      this.props.data.Post.author.id == this.props.loggedInUser.id
+    ) {
+      return (
+        <a className="post-meta-x" href="#" onClick={this.onClickDelete}>
+          <Icon name="x" />
+          <style jsx>
+            {`
+              .post-meta-x {
+                height: 20px;
+                width: 20px;
+                stroke: #e6e6e6;
+                display: inline-block;
+                padding-right: 20px;
+              }
+
+              .post-meta-x:hover {
+                stroke: #666;
+                transition: all 0.3s ease;
+              }
+            `}
+          </style>
+        </a>
+      );
+    }
+    return null;
+  };
+
+  renderModal = () => {
+    if (this.state.renderDeleteModal) {
+      return (
+        <Modal
+          text="Are you sure you want to delete this post? twol encourages you to share for you. There are no good or bad posts!"
+          onClickContinue={this.onClickModalContinue}
+          onClickCancel={this.onClickModalCancel}
+        />
+      );
+    }
+    return null;
+  };
+
+  onClickDelete = () => {
+    this.setState({ renderDeleteModal: true });
+  };
+
+  onClickModalCancel = () => {
+    this.setState({
+      renderDeleteModal: false,
+    });
+  };
+
+  onClickModalContinue = async () => {
+    this.setState({
+      renderDeleteModal: false,
+    });
+    await this.props.deletePostMutation({
+      variables: { id: this.props.data.Post.id },
+    });
+  };
 
   _insertBreak = () => {
     if (this.props.data.Post.content.length > 200) {
@@ -56,6 +126,7 @@ class Post extends React.Component {
 
     return (
       <div className="post-container">
+        {this.renderModal()}
         <div className="post-content">
           <span className="post-header">
             <Link
@@ -73,16 +144,17 @@ class Post extends React.Component {
           <span className="post-meta-time">
             {moment(this.props.data.Post.createdAt).fromNow()}
           </span>
-          <Link
-            as={`/entry/${this.props.id}`}
-            href={`/entry?id=${this.props.id}`}
-          >
-            <a>
-              <div className="post-meta-share">
+          <div className="actions">
+            {this._renderDeleteIcon()}
+            <Link
+              as={`/entry/${this.props.id}`}
+              href={`/entry?id=${this.props.id}`}
+            >
+              <a className="post-meta-share">
                 <Icon name="share" />
-              </div>
-            </a>
-          </Link>
+              </a>
+            </Link>
+          </div>
         </div>
         <style jsx>{`
           .post-container {
@@ -113,10 +185,15 @@ class Post extends React.Component {
           .post-meta {
             color: #e6e6e6;
             padding-bottom: 10px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
           }
 
           .post-content {
             padding: 10px 0;
+            white-space: pre-wrap;
           }
 
           .post-meta-share {
@@ -124,7 +201,16 @@ class Post extends React.Component {
             width: 20px;
             stroke: #e6e6e6;
             display: inline-block;
-            float: right;
+            transition: all 0.3s ease;
+          }
+
+          .post-meta-share:hover {
+            stroke: #666;
+          }
+
+          .actions {
+            display: flex;
+            align-items: center;
           }
 
           div:hover {
@@ -135,6 +221,14 @@ class Post extends React.Component {
   }
 }
 
+const DELETE_POST = gql`
+  mutation DeletePost($id: ID!) {
+    deletePost(id: $id) {
+      id
+    }
+  }
+`;
+
 const GET_POST = gql`
   query GetPost($id: ID!) {
     Post(id: $id) {
@@ -144,6 +238,7 @@ const GET_POST = gql`
       views
       createdAt
       author {
+        id
         username
       }
     }
@@ -164,5 +259,8 @@ export default compose(
     options: props => ({
       variables: { id: props.id },
     }),
+  }),
+  graphql(DELETE_POST, {
+    name: 'deletePostMutation',
   }),
 )(Post);

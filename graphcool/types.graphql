@@ -25,6 +25,6 @@ type Post @model {
   updatedAt: DateTime! # read-only (managed by Graphcool)
   content: String!
   imageUrl: String
-  views: Int! @default(value: 0) @migrationValue(value: 0)
+  views: Int! @defaultValue(value: 0)
   author: User @relation(name: "PostsByUser")
 }

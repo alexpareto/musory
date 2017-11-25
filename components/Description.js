@@ -1,6 +1,7 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
+import autosize from 'autosize';
 
 class CreatePost extends React.Component {
   constructor(props) {
@@ -10,6 +11,10 @@ class CreatePost extends React.Component {
       content: '',
       description: this.props.description ? this.props.description : '',
     };
+  }
+
+  componentDidMount() {
+    autosize(this.textArea);
   }
 
   _handleInputChange = event => {
@@ -29,7 +34,7 @@ class CreatePost extends React.Component {
   };
 
   _handleUpdateDescription = async () => {
-    this.refs.descriptionEntry.focus = false;
+    this.textArea.blur();
     const loggedInUser = this.props.loggedInUser;
     // don't allow if user is not logged in
     if (!loggedInUser) {
@@ -50,18 +55,24 @@ class CreatePost extends React.Component {
       return (
         <div>
           <textarea
-            ref="descriptionEntry"
+            ref={ref => {
+              this.textArea = ref;
+            }}
             name="description"
             placeholder="Add a description..."
             value={this.state.description}
             onChange={this._handleInputChange}
-            onKeyUp={this._handleKeyPress}
+            onKeyDown={this._handleKeyPress}
           />
           <style jsx>{`
             textarea {
               background-color: #fafafa;
               border: none;
               padding: 0;
+            }
+
+            textarea:hover {
+              border: none;
             }
           `}</style>
         </div>

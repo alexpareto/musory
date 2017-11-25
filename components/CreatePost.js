@@ -1,6 +1,9 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
+import autosize from 'autosize';
+
+import Button from './Button';
 
 class CreatePost extends React.Component {
   constructor(props) {
@@ -12,6 +15,21 @@ class CreatePost extends React.Component {
     };
   }
 
+  componentDidMount() {
+    autosize(this.textArea);
+  }
+
+  _renderButton = () => {
+    if (!this.state.content) {
+      return null;
+    }
+    return (
+      <div>
+        <Button text="Add" onClick={this._handleCreatePost} />
+      </div>
+    );
+  };
+
   _handleInputChange = event => {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -22,13 +40,8 @@ class CreatePost extends React.Component {
     });
   };
 
-  _handleKeyPress = event => {
-    if (event.key === 'Enter') {
-      this._handleCreatePost();
-    }
-  };
-
   _handleCreatePost = async () => {
+    this.textArea.blur();
     const loggedInUser = this.props.loggedInUser;
     // don't allow if user is not logged in
     if (!loggedInUser) {
@@ -53,18 +66,29 @@ class CreatePost extends React.Component {
       return (
         <div>
           <textarea
+            ref={ref => {
+              this.textArea = ref;
+            }}
             name="content"
             placeholder="Add an entry..."
             value={this.state.content}
             onChange={this._handleInputChange}
-            onKeyUp={this._handleKeyPress}
           />
+          <div className="footer">{this._renderButton()}</div>
           <style jsx>{`
             div {
               max-width: 500px;
               margin: 0 auto;
               margin-bottom: 20px;
               box-sizing: border-box;
+            }
+
+            .footer {
+              margin-bottom: 20px;
+              height: 30px;
+              text-align: center;
+              padding: 10px;
+              transition: all 0.3s ease;
             }
 
             textarea {

@@ -10,6 +10,7 @@ import Post from './../components/Post';
 import CreatePost from './../components/CreatePost';
 import Header from './../components/Header';
 import Description from './../components/Description';
+import MainContent from './../components/MainContent';
 
 /*
 * Individual post page
@@ -39,29 +40,40 @@ class Story extends React.Component {
 
     return (
       <Layout>
-        <Header loggedInUser={this.props.loggedInUser} />
-        <div className="container">
-          <div className="one-third column">
-            <div className="story-header">{this.props.url.query.username}</div>
-            <div className="story-description">
-              <Description
-                loggedInUser={this.props.loggedInUser}
-                description={this.props.data.allPosts[0].author.description}
-                canEdit={
-                  this.props.loggedInUser &&
-                  this.props.loggedInUser.username ==
-                    this.props.url.query.username
-                }
-              />
+        <Header loggedInUser={this.props.loggedInUser} url={this.props.url} />
+        <MainContent>
+          <div className="container">
+            <div className="one-third column">
+              <div className="story-about">
+                <div className="story-header">
+                  {this.props.url.query.username}
+                </div>
+                <div className="story-description">
+                  <Description
+                    loggedInUser={this.props.loggedInUser}
+                    description={this.props.data.allPosts[0].author.description}
+                    canEdit={
+                      this.props.loggedInUser &&
+                      this.props.loggedInUser.username ==
+                        this.props.url.query.username
+                    }
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="two-thirds column">
+              {this.renderCreatePost()}
+              {this.props.data.allPosts.map(post => (
+                <Post
+                  key={post.id}
+                  id={post.id}
+                  loggedInUser={this.props.loggedInUser}
+                />
+              ))}
             </div>
           </div>
-          <div className="two-thirds column">
-            {this.renderCreatePost()}
-            {this.props.data.allPosts.map(post => (
-              <Post key={post.id} id={post.id} />
-            ))}
-          </div>
-        </div>
+        </MainContent>
+
         <style jsx>{`
           .story-header {
             font-size: 40px;
@@ -84,6 +96,7 @@ const GET_USER_POSTS = gql`
       imageUrl
       views
       author {
+        id
         username
         description
       }

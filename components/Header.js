@@ -49,6 +49,7 @@ class Header extends React.Component {
               </Link>
               {this.renderStory()}
             </div>
+            <div className="logo">twol</div>
             <div className="fb">
               <FacebookLogin
                 loggedInUser={this.props.loggedInUser}
@@ -65,12 +66,20 @@ class Header extends React.Component {
             display: inline-block;
           }
 
+          .logo {
+            font-size: 40px;
+            line-height: 40px;
+            font-weight: bold;
+          }
+
           .holder {
             width: 100%;
-            height: 70px;
+            position: fixed;
+            top: 0;
+            height: 65px;
             border-bottom: 1px solid #eee;
-            margin-bottom: 20px;
             background-color: #fff;
+            z-index: 1;
           }
 
           .container {

@@ -10,7 +10,7 @@ class Layout extends React.Component {
     return (
       <div>
         <Head>
-          <title>TWOL</title>
+          <title>twol</title>
           <meta
             name="viewport"
             content="initial-scale=1.0, width=device-width"

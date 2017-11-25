@@ -7,6 +7,7 @@ import redirect from './../lib/redirect';
 import checkLoggedIn from './../lib/checkLoggedIn';
 
 import Layout from './../components/Layout';
+import MainContent from './../components/MainContent';
 import Post from './../components/Post';
 import CreatePost from './../components/CreatePost';
 import AddUsername from './../components/AddUsername';
@@ -42,17 +43,20 @@ class Home extends React.Component {
 
     return (
       <Layout>
-        <Header loggedInUser={this.props.loggedInUser} />
-        <div className="container">
-          <CreatePost loggedInUser={this.props.loggedInUser} />
-          {this.props.data.allPosts.map(post => (
-            <Post key={post.id} id={post.id} />
-          ))}
-          <style jsx>{`
-            .container {
-            }
-          `}</style>
-        </div>
+        <Header loggedInUser={this.props.loggedInUser} url={this.props.url} />
+        <MainContent>
+          <div className="container page">
+            <CreatePost loggedInUser={this.props.loggedInUser} />
+            {this.props.data.allPosts.map(post => (
+              <Post
+                key={post.id}
+                id={post.id}
+                loggedInUser={this.props.loggedInUser}
+              />
+            ))}
+            <style jsx>{``}</style>
+          </div>
+        </MainContent>
       </Layout>
     );
   }
@@ -67,6 +71,7 @@ const ALL_POSTS = gql`
       createdAt
       views
       author {
+        id
         username
       }
     }

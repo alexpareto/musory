@@ -98,6 +98,11 @@ class FacebookLogin extends React.Component {
               color: #e6e6e6;
               underline: none;
               text-decoration: none;
+              transition: all 0.3s ease;
+            }
+
+            a:hover {
+              color: #666;
             }
           `}</style>
         </div>

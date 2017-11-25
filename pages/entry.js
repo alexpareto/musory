@@ -1,14 +1,12 @@
 import React from 'react';
-import { graphql, compose } from 'react-apollo';
-import gql from 'graphql-tag';
 
 import withData from '../lib/withData';
 import checkLoggedIn from './../lib/checkLoggedIn';
 
 import Post from './../components/Post';
-import CreatePost from './../components/CreatePost';
 import Header from './../components/Header';
 import Layout from './../components/Layout';
+import MainContent from './../components/MainContent';
 
 /*
 * Individual post page
@@ -29,9 +27,14 @@ class PostPage extends React.Component {
     return (
       <Layout>
         <Header loggedInUser={this.props.loggedInUser} />
-        <div>
-          <Post id={this.props.url.query.id} />
-        </div>
+        <MainContent>
+          <div>
+            <Post
+              id={this.props.url.query.id}
+              loggedInUser={this.props.loggedInUser}
+            />
+          </div>
+        </MainContent>
       </Layout>
     );
   }

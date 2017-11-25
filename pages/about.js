@@ -5,6 +5,7 @@ import FacebookLogin from '../components/FacebookLogin';
 
 import Layout from './../components/Layout';
 import Header from './../components/Header';
+import MainContent from './../components/MainContent';
 
 /*
 * header page
@@ -28,38 +29,40 @@ class About extends React.Component {
 
     return (
       <Layout>
-        <Header loggedInUser={this.props.loggedInUser} />
-        <div className="container">
-          <div className="content">
-            <h1>about</h1>
-            <p>
-              People love to share. It makes sense then that there are a lot of
-              online sharing platforms out there: Facebook, Twitter, Instagram,
-              etc. etc. Yet, to really be clear, those platforms aren't sharing
-              platforms - they're social media platforms.
-            </p>
-            <p>
-              The idea of a "quality tweet" or a "like-to-minute ratio" on an
-              Instagram post means that we're not sharing for us - we're sharing
-              for our followers. That leaves half of our stories and thoughts
-              forgotten in this so-called quality anxiety.
-            </p>
-            <p>
-              twol is sharing for you. Make a photo entry. Write a three page
-              story. Share a passing thought. There are no likes or hearts, no
-              good or bad entries, no follower counts. Nothing is off limits.
-              twol exists to help you capture all those moments that maybe
-              aren't perfect enough for the big screen. After all, aren't those
-              the moments that say the most?
-            </p>
-            <div className="fb-login">
-              <FacebookLogin
-                loggedInUser={this.props.loggedInUser}
-                showLogout={false}
-              />
+        <Header loggedInUser={this.props.loggedInUser} url={this.props.url} />
+        <MainContent>
+          <div className="container">
+            <div className="content">
+              <h1>about</h1>
+              <p>
+                People love to share. It makes sense then that there are a lot
+                of online sharing platforms out there: Facebook, Twitter,
+                Instagram, etc. etc. Yet, to really be clear, those platforms
+                aren't sharing platforms - they're social media platforms.
+              </p>
+              <p>
+                The idea of a "quality tweet" or a "like-to-minute ratio" on an
+                Instagram post means that we're not sharing for us - we're
+                sharing for our followers. That leaves half of our stories and
+                thoughts forgotten in this so-called quality anxiety.
+              </p>
+              <p>
+                twol is sharing for you. Make a photo entry. Write a three page
+                story. Share a passing thought. There are no likes or hearts, no
+                good or bad entries, no follower counts. Nothing is off limits.
+                twol exists to help you capture all those moments that maybe
+                aren't perfect enough for the big screen. After all, aren't
+                those the moments that say the most?
+              </p>
+              <div className="fb-login">
+                <FacebookLogin
+                  loggedInUser={this.props.loggedInUser}
+                  showLogout={false}
+                />
+              </div>
             </div>
           </div>
-        </div>
+        </MainContent>
         <style jsx>{`
           .content {
             box-sizing: border-box;
