@@ -23,7 +23,6 @@ class Header extends React.Component {
                   height: 40px;
                   width: 40px;
                   display: inline-block;
-                  padding-left: 30px;
                 }
               `}</style>
             </div>
@@ -93,16 +92,12 @@ class Header extends React.Component {
             height: 100%;
           }
 
-          a {
-            padding-left: 10px;
+          .fb {
+            width: 100px;
           }
 
           .links {
-            padding-left: 10px;
-          }
-
-          .fb {
-            padding-right: 20px;
+            width: 100px;
           }
         `}</style>
       </div>

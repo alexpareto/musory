@@ -1,5 +1,5 @@
 import React from 'react';
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import withData from '../lib/withData';
@@ -11,6 +11,7 @@ import CreatePost from './../components/CreatePost';
 import Header from './../components/Header';
 import Description from './../components/Description';
 import MainContent from './../components/MainContent';
+import FollowButton from './../components/FollowButton';
 
 /*
 * Individual post page
@@ -34,7 +35,7 @@ class Story extends React.Component {
   }
 
   render() {
-    if (this.props.data.loading) {
+    if (this.props.GetUser.loading || this.props.GetUserPosts.loading) {
       return <div>loading!</div>;
     }
 
@@ -51,7 +52,7 @@ class Story extends React.Component {
                 <div className="story-description">
                   <Description
                     loggedInUser={this.props.loggedInUser}
-                    description={this.props.data.allPosts[0].author.description}
+                    description={this.props.GetUser.User.description}
                     canEdit={
                       this.props.loggedInUser &&
                       this.props.loggedInUser.username ==
@@ -59,11 +60,17 @@ class Story extends React.Component {
                     }
                   />
                 </div>
+                <span className="story-follow-button">
+                  <FollowButton
+                    loggedInUser={this.props.loggedInUser}
+                    followedUser={this.props.GetUser.User}
+                  />
+                </span>
               </div>
             </div>
             <div className="two-thirds column">
               {this.renderCreatePost()}
-              {this.props.data.allPosts.map(post => (
+              {this.props.GetUserPosts.allPosts.map(post => (
                 <Post
                   key={post.id}
                   id={post.id}
@@ -85,6 +92,16 @@ class Story extends React.Component {
   }
 }
 
+const GET_USER = gql`
+  query GetUser($username: String!) {
+    User(username: $username) {
+      id
+      description
+      username
+    }
+  }
+`;
+
 const GET_USER_POSTS = gql`
   query GetUserPosts($username: String!) {
     allPosts(
@@ -105,10 +122,18 @@ const GET_USER_POSTS = gql`
 `;
 
 export default withData(
-  graphql(GET_USER_POSTS, {
-    options: props => ({
-      variables: { username: props.url.query.username },
+  compose(
+    graphql(GET_USER, {
+      options: props => ({
+        variables: { username: props.url.query.username },
+      }),
+      name: 'GetUser',
+    }),
+    graphql(GET_USER_POSTS, {
+      options: props => ({
+        variables: { username: props.url.query.username },
+      }),
       name: 'GetUserPosts',
     }),
-  })(Story),
+  )(Story),
 );

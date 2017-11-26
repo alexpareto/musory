@@ -1,7 +1,9 @@
 import React from 'react';
 import withData from '../lib/withData';
-import checkLoggedIn from '../lib/checkLoggedIn';
 import FacebookLogin from '../components/FacebookLogin';
+
+import redirect from '../lib/redirect';
+import checkLoggedIn from '../lib/checkLoggedIn';
 
 import Layout from './../components/Layout';
 
@@ -14,7 +16,7 @@ class Index extends React.Component {
   static async getInitialProps(context, apolloClient) {
     const { loggedInUser } = await checkLoggedIn(context, apolloClient);
     if (loggedInUser) {
-      //redirect(context, '/home');
+      redirect(context, '/home');
     }
 
     return { loggedInUser };
@@ -27,24 +29,27 @@ class Index extends React.Component {
 
     return (
       <Layout>
-        <section>
-          <div className="lander-content">
-            <h1>tell your story, your way</h1>
+        <div className="section">
+          <div className="container">
+            <div className="lander-content">
+              <h1>tell your story. your way.</h1>
+            </div>
+            <div className="fb-login">
+              <FacebookLogin loggedInUser={this.props.loggedInUser} />
+            </div>
           </div>
-          <div className="fb-login">
-            <FacebookLogin loggedInUser={this.props.loggedInUser} />
-          </div>
-        </section>
-        <section>
+        </div>
+        <div className="section">
           <div className="lander-content">
             <div className="container">
               <h1>how it works</h1>
               <p>
-                TWOL is about sharing your story in your own way. Create an
+                twol is about sharing your story in your own way. Create an
                 entry for your thoughts, the crazy thing that happened to you
-                last weekend, your fears, your goals, share links, whatever.
-                There are no likes because this isn't about sharing for others -
-                it's about sharing for you.
+                last weekend, a picture of your cat, your fears, your goals,
+                your coffee, a new pen, share links, whatever. There are no
+                likes because this isn't about sharing for others - it's about
+                sharing for you.
               </p>
               <h3>1. no likes</h3>
               <h3>2. no comments</h3>
@@ -56,10 +61,10 @@ class Index extends React.Component {
           <div className="fb-login">
             <FacebookLogin loggedInUser={this.props.loggedInUser} />
           </div>
-        </section>
+        </div>
         <style jsx>{`
-          section {
-            height: 100vh;
+          .section {
+            min-height: 100vh;
             width: 100%;
             display: flex;
             justify-content: center;
@@ -73,20 +78,8 @@ class Index extends React.Component {
             justify-content center;
           }
 
-          .lander-content {
-            padding-left: 10%;
-          }
-
           .lander-content h1 {
-            font-size: 100px;
-          }
-
-          .lander-content h3 {
-            font-size: 40px;
-          }
-
-          .lander-content p {
-            font-size: 20px;
+            text-align: center;
           }
         `}</style>
       </Layout>

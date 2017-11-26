@@ -33,7 +33,7 @@ class About extends React.Component {
         <MainContent>
           <div className="container">
             <div className="content">
-              <h1>about</h1>
+              <h1 className="about-header">about</h1>
               <p>
                 People love to share. It makes sense then that there are a lot
                 of online sharing platforms out there: Facebook, Twitter,
@@ -52,7 +52,7 @@ class About extends React.Component {
                 good or bad entries, no follower counts. Nothing is off limits.
                 twol exists to help you capture all those moments that maybe
                 aren't perfect enough for the big screen. After all, aren't
-                those the moments that say the most?
+                those the moments that, together, say the most?
               </p>
               <div className="fb-login">
                 <FacebookLogin

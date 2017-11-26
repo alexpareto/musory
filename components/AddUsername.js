@@ -2,6 +2,8 @@ import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
+import Button from './Button';
+
 class AddUsername extends React.Component {
   constructor(props) {
     super(props);
@@ -10,6 +12,12 @@ class AddUsername extends React.Component {
       username: '',
     };
   }
+
+  _handleKeyDown = event => {
+    if (event.which == 13 || event.keyCode == 13) {
+      this._handleCreateUsername();
+    }
+  };
 
   _handleInputChange = event => {
     const target = event.target;
@@ -31,21 +39,41 @@ class AddUsername extends React.Component {
     const id = this.props.loggedInUser.id;
     const username = this.state.username;
 
-    await this.props.AddUsernameMutation({
+    const response = await this.props.AddUsernameMutation({
       variables: { id: id, username: username },
     });
+    console.log(response);
   };
 
   render() {
     if (this.props.loggedInUser && !this.props.loggedInUser.username) {
       return (
-        <div>
-          <input
-            name="username"
-            value={this.state.username}
-            onChange={this._handleInputChange}
-          />
-          <button onClick={this._handleCreateUsername}>Add Username</button>
+        <div className="add-username-holder">
+          <div>
+            <input
+              name="username"
+              placeholder="Choose a username..."
+              value={this.state.username}
+              onChange={this._handleInputChange}
+              onKeyDown={this._handleKeyDown}
+            />
+          </div>
+          <Button text="Continue" onClick={this._handleCreateUsername} />
+          <style jsx>{`
+            input {
+              display: inline-block;
+              border: 1px solid #eee;
+              outline: 0px none transparent;
+              transition: all 0.3s ease;
+              padding: 10px 10px;
+              box-sizing: border-box;
+              margin-bottom: 10px;
+            }
+
+            .add-username-holder {
+              text-align: center;
+            }
+          `}</style>
         </div>
       );
     }

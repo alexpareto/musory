@@ -23,6 +23,8 @@ class Home extends React.Component {
     const { loggedInUser } = await checkLoggedIn(context, apolloClient);
     if (!loggedInUser) {
       redirect(context, '/');
+    } else if (!loggedInUser.username) {
+      redirect(context, '/username');
     }
 
     return { loggedInUser };
@@ -68,8 +70,8 @@ const ALL_POSTS = gql`
       id
       imageUrl
       content
-      createdAt
       views
+      createdAt
       author {
         id
         username

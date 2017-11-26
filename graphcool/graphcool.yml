@@ -81,6 +81,13 @@ permissions:
       - posts
       - username
       - description
+      - following
+
+  - operation: FollowedByUser.connect
+    authenticated: true
+
+  - operation: FollowedByUser.disconnect
+    authenticated: true
 
   - operation: User.update
     authenticated: true

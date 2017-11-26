@@ -24,12 +24,13 @@ const Modal = props => {
             align-items: center;
             background-color: rgba(0, 0, 0, 0.3);
             justify-content: center;
+            z-index: 1;
           }
 
           .modal-content {
             text-align: center;
             position: relative;
-            max-width: 500px;
+            max-width: 550px;
             background-color: white;
             border-radius: 3px;
             box-sizing: border-box;

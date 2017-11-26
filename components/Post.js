@@ -60,6 +60,87 @@ class Post extends React.Component {
     return null;
   };
 
+  _renderContent = () => {
+    if (this.props.data.loading) {
+      return null;
+    }
+    return (
+      <div>
+        <div className="post-content">
+          <span className="post-header">
+            <Link
+              as={`/story/${this.props.data.Post.author.username}`}
+              href={`/story?username=${this.props.data.Post.author.username}`}
+            >
+              <a>{this.props.data.Post.author.username}</a>
+            </Link>
+          </span>
+          {this._insertBreak()}
+          {this.props.data.Post.content}
+        </div>
+        <div className="post-meta">
+          <span className="post-meta-time">
+            {moment(this.props.data.Post.createdAt).fromNow()}
+          </span>
+          <div className="actions">
+            {this._renderDeleteIcon()}
+            <Link
+              as={`/entry/${this.props.id}`}
+              href={`/entry?id=${this.props.id}`}
+            >
+              <a className="post-meta-share">
+                <Icon name="share" />
+              </a>
+            </Link>
+          </div>
+        </div>
+        <style jsx>{`
+          .post-header {
+            font-weight: bold;
+            padding-right: 5px;
+          }
+
+          .post-header a {
+            color: inherit;
+            underline: none;
+            text-decoration: none;
+          }
+
+          .post-meta {
+            color: #e6e6e6;
+            padding-bottom: 10px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+          }
+
+          .post-content {
+            padding: 10px 0;
+            white-space: pre-wrap;
+          }
+
+          .post-meta-share {
+            height: 20px;
+            width: 20px;
+            stroke: #e6e6e6;
+            display: inline-block;
+            transition: all 0.3s ease;
+          }
+
+          .post-meta-share:hover {
+            stroke: #666;
+          }
+
+          .actions {
+            display: flex;
+            align-items: center;
+          }
+        `}</style>
+      </div>
+    );
+  };
+
   renderModal = () => {
     if (this.state.renderDeleteModal) {
       return (
@@ -104,10 +185,6 @@ class Post extends React.Component {
   };
 
   render() {
-    if (this.props.data.loading) {
-      return <div>loading!</div>;
-    }
-
     if (!this.props.data.Post) {
       return (
         <div className="container">
@@ -127,35 +204,7 @@ class Post extends React.Component {
     return (
       <div className="post-container">
         {this.renderModal()}
-        <div className="post-content">
-          <span className="post-header">
-            <Link
-              as={`/story/${this.props.data.Post.author.username}`}
-              href={`/story?username=${this.props.data.Post.author.username}`}
-            >
-              <a>{this.props.data.Post.author.username}</a>
-            </Link>
-          </span>
-          {this._insertBreak()}
-          {this.props.data.Post.content}
-        </div>
-
-        <div className="post-meta">
-          <span className="post-meta-time">
-            {moment(this.props.data.Post.createdAt).fromNow()}
-          </span>
-          <div className="actions">
-            {this._renderDeleteIcon()}
-            <Link
-              as={`/entry/${this.props.id}`}
-              href={`/entry?id=${this.props.id}`}
-            >
-              <a className="post-meta-share">
-                <Icon name="share" />
-              </a>
-            </Link>
-          </div>
-        </div>
+        {this._renderContent()}
         <style jsx>{`
           .post-container {
             box-sizing: border-box;
@@ -170,49 +219,6 @@ class Post extends React.Component {
             border: 1px solid #e6e6e6;
             padding: 0 16px;
           }
-
-          .post-header {
-            font-weight: bold;
-            padding-right: 5px;
-          }
-
-          .post-header a {
-            color: inherit;
-            underline: none;
-            text-decoration: none;
-          }
-
-          .post-meta {
-            color: #e6e6e6;
-            padding-bottom: 10px;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
-          }
-
-          .post-content {
-            padding: 10px 0;
-            white-space: pre-wrap;
-          }
-
-          .post-meta-share {
-            height: 20px;
-            width: 20px;
-            stroke: #e6e6e6;
-            display: inline-block;
-            transition: all 0.3s ease;
-          }
-
-          .post-meta-share:hover {
-            stroke: #666;
-          }
-
-          .actions {
-            display: flex;
-            align-items: center;
-          }
-
           div:hover {
           }
         `}</style>
