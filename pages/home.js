@@ -1,6 +1,7 @@
 import React from 'react';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
+import Waypoint from 'react-waypoint';
 
 import withData from '../lib/withData';
 import redirect from './../lib/redirect';
@@ -30,6 +31,22 @@ class Home extends React.Component {
     return { loggedInUser };
   }
 
+  _renderNoPosts = () => {
+    if (this.props.data.allPosts.length === 0) {
+      return (
+        <p>
+          This is your feed. It includes everyone that you follow. Try making a
+          post above!
+          <style jsx>{`
+            p {
+              text-align: center;
+            }
+          `}</style>
+        </p>
+      );
+    }
+  };
+
   render() {
     if (this.props.data.loading) {
       return <div>loading!</div>;
@@ -56,7 +73,10 @@ class Home extends React.Component {
                 loggedInUser={this.props.loggedInUser}
               />
             ))}
-            <style jsx>{``}</style>
+            {this._renderNoPosts()}
+            <div style={{ height: 10 }}>
+              <Waypoint onEnter={this.props.loadMorePosts} threshold={0} />
+            </div>
           </div>
         </MainContent>
       </Layout>
@@ -65,8 +85,13 @@ class Home extends React.Component {
 }
 
 const ALL_POSTS = gql`
-  query AllPostsQuery {
-    allPosts(orderBy: createdAt_DESC) {
+  query AllPostsQuery($id: ID!, $first: Int!, $skip: Int!) {
+    allPosts(
+      filter: { author: { isFollowedBy_some: { id: $id } } }
+      orderBy: createdAt_DESC
+      first: $first
+      skip: $skip
+    ) {
       id
       imageUrl
       content
@@ -82,5 +107,35 @@ const ALL_POSTS = gql`
 
 export default compose(
   withData,
-  graphql(ALL_POSTS, { options: { pollInterval: 200 } }),
+  graphql(ALL_POSTS, {
+    options: props => ({
+      variables: {
+        id: props.loggedInUser.id,
+        skip: 0,
+        first: 5,
+      },
+    }),
+    props: ({ data }) => ({
+      data,
+      loadMorePosts: () => {
+        return data.fetchMore({
+          variables: {
+            skip: data.allPosts.length,
+          },
+          updateQuery: (previousResult, { fetchMoreResult }) => {
+            if (!fetchMoreResult) {
+              return previousResult;
+            }
+            return Object.assign({}, previousResult, {
+              // Append the new posts results to the old one
+              allPosts: [
+                ...previousResult.allPosts,
+                ...fetchMoreResult.allPosts,
+              ],
+            });
+          },
+        });
+      },
+    }),
+  }),
 )(Home);

@@ -37,6 +37,13 @@ functions:
         src: ./src/functions/addPostView.js
     type: resolver
     schema: ./src/functions/addPostView.graphql
+  signedUrl:
+    handler:
+      code:
+        src: ./src/functions/signedUrl.js
+    type: resolver
+    schema: ./src/functions/signedUrl.graphql
+
 
 # Model/Relation permissions are used to limit the API access
 # To take the burden of thinking about those while development, we

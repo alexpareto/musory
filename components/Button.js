@@ -10,10 +10,9 @@ const Button = props => {
         {`
           button {
             height: 30px;
-            width: 125px;
+            min-width: 125px;
             background-color: rgba(0, 0, 0, 0);
             border: 1px solid #e6e6e6;
-            font-weight: bold;
             border-radius: 3px;
             transition: all 0.3s ease;
           }

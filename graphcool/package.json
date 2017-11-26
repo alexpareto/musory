@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "My Graphcool Service",
   "dependencies": {
+    "aws-sdk": "^2.156.0",
     "graphcool-lib": "^0.1.0",
     "graphql-request": "^1.4.0"
   }

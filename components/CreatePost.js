@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 import autosize from 'autosize';
 
 import Button from './Button';
+import UploadImage from './UploadImage';
 
 class CreatePost extends React.Component {
   constructor(props) {
@@ -19,15 +20,50 @@ class CreatePost extends React.Component {
     autosize(this.textArea);
   }
 
+  _setImage = url => {
+    this.setState({
+      imageUrl: url,
+    });
+  };
+
+  _renderImage = () => {
+    if (this.state.imageUrl) {
+      return (
+        <div>
+          <img src={this.state.imageUrl} />
+          <style jsx>{`
+            div {
+              max-width: 500px;
+            }
+
+            img {
+              width: 100%;
+            }
+          `}</style>
+        </div>
+      );
+    }
+    return null;
+  };
+
+  _renderImageUpload = () => {
+    if (this.state.imageUrl) {
+      return null;
+    }
+
+    return (
+      <UploadImage
+        loggedInUser={this.props.loggedInUser}
+        setImage={this._setImage}
+      />
+    );
+  };
+
   _renderButton = () => {
     if (!this.state.content) {
       return null;
     }
-    return (
-      <div>
-        <Button text="Add" onClick={this._handleCreatePost} />
-      </div>
-    );
+    return <Button text="Post" onClick={this._handleCreatePost} />;
   };
 
   _handleInputChange = event => {
@@ -54,6 +90,7 @@ class CreatePost extends React.Component {
 
     this.setState({
       content: '',
+      imageUrl: '',
     });
 
     await this.props.CreatePostMutation({
@@ -65,6 +102,7 @@ class CreatePost extends React.Component {
     if (this.props.loggedInUser) {
       return (
         <div>
+          {this._renderImage()}
           <textarea
             ref={ref => {
               this.textArea = ref;
@@ -74,7 +112,10 @@ class CreatePost extends React.Component {
             value={this.state.content}
             onChange={this._handleInputChange}
           />
-          <div className="footer">{this._renderButton()}</div>
+          <div className="footer">
+            {this._renderImageUpload()}
+            <div className="add-entry-button">{this._renderButton()}</div>
+          </div>
           <style jsx>{`
             div {
               max-width: 500px;
@@ -85,10 +126,14 @@ class CreatePost extends React.Component {
 
             .footer {
               margin-bottom: 20px;
-              height: 30px;
+              height: 80px;
               text-align: center;
               padding: 10px;
               transition: all 0.3s ease;
+            }
+
+            .add-entry-button {
+              margin-top: 10px;
             }
 
             textarea {
@@ -101,6 +146,7 @@ class CreatePost extends React.Component {
               padding: 16px 10px;
               box-sizing: border-box;
               border-radius: 3px;
+              overflow: hidden;
             }
 
             textarea:focus,

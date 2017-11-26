@@ -70,6 +70,7 @@ class CreatePost extends React.Component {
               border: none;
               padding: 0;
               resize: none;
+              text-align: center;
             }
 
             textarea:hover {

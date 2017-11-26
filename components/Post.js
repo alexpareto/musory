@@ -61,23 +61,89 @@ class Post extends React.Component {
   };
 
   _renderContent = () => {
-    if (this.props.data.loading) {
-      return null;
-    }
-    return (
-      <div>
-        <div className="post-content">
-          <span className="post-header">
+    if (this.props.data.Post.imageUrl) {
+      return (
+        <div>
+          <div className="post-header">
             <Link
               as={`/story/${this.props.data.Post.author.username}`}
               href={`/story?username=${this.props.data.Post.author.username}`}
             >
               <a>{this.props.data.Post.author.username}</a>
             </Link>
-          </span>
-          {this._insertBreak()}
-          {this.props.data.Post.content}
+          </div>
+          <div>
+            <img src={this.props.data.Post.imageUrl} />
+          </div>
+          <div className="post-content">{this.props.data.Post.content}</div>
+          <style jsx>{`
+            img {
+              width: 100%;
+            }
+
+            .post-header {
+              font-weight: bold;
+              padding-right: 5px;
+              padding-bottom: 16px;
+              padding: 10px 16px;
+            }
+
+            .post-header a {
+              color: inherit;
+              underline: none;
+              text-decoration: none;
+            }
+
+            .post-content {
+              padding: 10px 16px;
+              white-space: pre-wrap;
+            }
+          `}</style>
         </div>
+      );
+    }
+
+    return (
+      <div className="post-content">
+        <span className="post-header">
+          <Link
+            as={`/story/${this.props.data.Post.author.username}`}
+            href={`/story?username=${this.props.data.Post.author.username}`}
+          >
+            <a>{this.props.data.Post.author.username}</a>
+          </Link>
+        </span>
+        {this._insertBreak()}
+        {this.props.data.Post.content}
+        <style jsx>{`
+          .post-header {
+            font-weight: bold;
+            padding-right: 5px;
+          }
+
+          .post-header a {
+            color: inherit;
+            underline: none;
+            text-decoration: none;
+          }
+
+          .post-content {
+            padding: 10px 16px;
+            white-space: pre-wrap;
+          }
+        `}</style>
+      </div>
+    );
+  };
+
+  _renderPost = () => {
+    if (this.props.data.loading) {
+      return <span>Loading</span>;
+    }
+
+    return (
+      <div>
+        {this._renderContent()}
         <div className="post-meta">
           <span className="post-meta-time">
             {moment(this.props.data.Post.createdAt).fromNow()}
@@ -95,29 +161,14 @@ class Post extends React.Component {
           </div>
         </div>
         <style jsx>{`
-          .post-header {
-            font-weight: bold;
-            padding-right: 5px;
-          }
-
-          .post-header a {
-            color: inherit;
-            underline: none;
-            text-decoration: none;
-          }
-
           .post-meta {
             color: #e6e6e6;
+            padding: 0 16px;
             padding-bottom: 10px;
             display: flex;
             flex-direction: row;
             justify-content: space-between;
             align-items: center;
-          }
-
-          .post-content {
-            padding: 10px 0;
-            white-space: pre-wrap;
           }
 
           .post-meta-share {
@@ -185,7 +236,7 @@ class Post extends React.Component {
   };
 
   render() {
-    if (!this.props.data.Post) {
+    if (!this.props.data.Post && !this.props.data.loading) {
       return (
         <div className="container">
           <h3>Uh oh, that entry doesn't exist.</h3>
@@ -204,7 +255,7 @@ class Post extends React.Component {
     return (
       <div className="post-container">
         {this.renderModal()}
-        {this._renderContent()}
+        {this._renderPost()}
         <style jsx>{`
           .post-container {
             box-sizing: border-box;
@@ -212,12 +263,10 @@ class Post extends React.Component {
             text-align: left;
             margin: 0 auto;
             margin-bottom: 20px;
-            transition: all 0.3s ease;
             border: 1px solid rgba(0, 0, 0, 0);
             background-color: #fff;
             border-radius: 3px;
             border: 1px solid #e6e6e6;
-            padding: 0 16px;
           }
           div:hover {
           }

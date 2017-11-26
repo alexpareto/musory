@@ -1,6 +1,7 @@
 import React from 'react';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
+import Waypoint from 'react-waypoint';
 
 import withData from '../lib/withData';
 import checkLoggedIn from './../lib/checkLoggedIn';
@@ -77,6 +78,9 @@ class Story extends React.Component {
                   loggedInUser={this.props.loggedInUser}
                 />
               ))}
+              <div style={{ height: 10 }}>
+                <Waypoint onEnter={this.props.loadMorePosts} threshold={0} />
+              </div>
             </div>
           </div>
         </MainContent>
@@ -85,6 +89,10 @@ class Story extends React.Component {
           .story-header {
             font-size: 40px;
             font-weight: bold;
+          }
+
+          .story-about {
+            text-align: center;
           }
         `}</style>
       </Layout>
@@ -103,10 +111,12 @@ const GET_USER = gql`
 `;
 
 const GET_USER_POSTS = gql`
-  query GetUserPosts($username: String!) {
+  query GetUserPosts($username: String!, $first: Int!, $skip: Int!) {
     allPosts(
       filter: { author: { username: $username } }
       orderBy: createdAt_DESC
+      first: $first
+      skip: $skip
     ) {
       id
       content
@@ -131,7 +141,33 @@ export default withData(
     }),
     graphql(GET_USER_POSTS, {
       options: props => ({
-        variables: { username: props.url.query.username },
+        variables: {
+          username: props.url.query.username,
+          skip: 0,
+          first: 5,
+        },
+      }),
+      props: ({ GetUserPosts }) => ({
+        GetUserPosts: GetUserPosts,
+        loadMorePosts: () => {
+          return GetUserPosts.fetchMore({
+            variables: {
+              skip: GetUserPosts.allPosts.length,
+            },
+            updateQuery: (previousResult, { fetchMoreResult }) => {
+              if (!fetchMoreResult) {
+                return previousResult;
+              }
+              return Object.assign({}, previousResult, {
+                // Append the new posts results to the old one
+                allPosts: [
+                  ...previousResult.allPosts,
+                  ...fetchMoreResult.allPosts,
+                ],
+              });
+            },
+          });
+        },
       }),
       name: 'GetUserPosts',
     }),
