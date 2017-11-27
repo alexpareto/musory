@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "node server/server.js",
     "build": "next build",
-    "start": "next start"
+    "start": "NODE_ENV=production node server/server.js"
   },
   "dependencies": {
     "apollo-client-preset": "^1.0.1",

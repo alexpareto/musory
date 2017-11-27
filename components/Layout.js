@@ -37,7 +37,7 @@ class Layout extends React.Component {
             name="viewport"
             content="initial-scale=1.0, width=device-width"
           />
-          <meta charset="utf-8" />
+          <meta charSet="utf-8" />
           <link
             href="https://fonts.googleapis.com/css?family=Merriweather:300,400,700"
             rel="stylesheet"

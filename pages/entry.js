@@ -23,48 +23,47 @@ class PostPage extends React.Component {
   }
 
   render() {
-    if (this.props.data.loading) {
-      return <div>loading!</div>;
-    }
-
-    return (
-      <Layout>
-        <Head>
-          <meta
-            name="og:title"
-            property="og:title"
-            content={
-              this.props.data.Post.author.username + "'s entry on Musory"
-            }
-          />
-          <meta property="og:type" content="website" />
-          <meta
-            property="og:image"
-            key="og:image"
-            content={this.props.data.Post.imageUrl}
-          />
-          <meta
-            property="og:description"
-            content={this.props.data.Post.content}
-            key="og:description"
-          />
-          <meta
-            name="description"
-            key="description"
-            content={this.props.data.Post.content}
-          />
-        </Head>
-        <Header loggedInUser={this.props.loggedInUser} />
-        <MainContent>
-          <div>
-            <Post
-              id={this.props.url.query.id}
-              loggedInUser={this.props.loggedInUser}
+    if (this.props.data.Post) {
+      return (
+        <Layout>
+          <Head>
+            <meta
+              name="og:title"
+              property="og:title"
+              content={
+                this.props.data.Post.author.username + "'s entry on Musory"
+              }
             />
-          </div>
-        </MainContent>
-      </Layout>
-    );
+            <meta property="og:type" content="website" />
+            <meta
+              property="og:image"
+              key="og:image"
+              content={this.props.data.Post.imageUrl}
+            />
+            <meta
+              property="og:description"
+              content={this.props.data.Post.content}
+              key="og:description"
+            />
+            <meta
+              name="description"
+              key="description"
+              content={this.props.data.Post.content}
+            />
+          </Head>
+          <Header loggedInUser={this.props.loggedInUser} />
+          <MainContent>
+            <div>
+              <Post
+                id={this.props.url.query.id}
+                loggedInUser={this.props.loggedInUser}
+              />
+            </div>
+          </MainContent>
+        </Layout>
+      );
+    }
+    return <div>Loading</div>;
   }
 }
 
@@ -84,10 +83,10 @@ const GET_POST = gql`
   }
 `;
 
-export default withData(
-  graphql(GET_POST, {
-    options: props => ({
-      variables: { id: props.url.query.id },
-    }),
-  })(PostPage),
-);
+const component = graphql(GET_POST, {
+  options: props => ({
+    variables: { id: props.url.query.id },
+  }),
+})(PostPage);
+
+export default withData(component);

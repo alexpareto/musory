@@ -45,6 +45,18 @@ class Story extends React.Component {
     return null;
   };
 
+  _renderFollowButton = () => {
+    if (!this.props.loggedInUser) {
+      return null;
+    }
+    return (
+      <FollowButton
+        loggedInUser={this.props.loggedInUser}
+        followedUser={this.props.GetUser.User}
+      />
+    );
+  };
+
   render() {
     if (this.props.GetUser.loading || this.props.GetUserPosts.loading) {
       return <div>loading!</div>;
@@ -91,10 +103,7 @@ class Story extends React.Component {
                   />
                 </div>
                 <span className="story-follow-button">
-                  <FollowButton
-                    loggedInUser={this.props.loggedInUser}
-                    followedUser={this.props.GetUser.User}
-                  />
+                  {this._renderFollowButton()}
                 </span>
               </div>
             </div>
