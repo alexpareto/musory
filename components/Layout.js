@@ -11,12 +11,7 @@ class Layout extends React.Component {
       <div>
         <Head>
           <title>Musory</title>
-          <meta
-            key="og:title"
-            name="og:title"
-            property="og:title"
-            content="Musory"
-          />
+          <meta key="og:title" property="og:title" content="Musory" />
           <meta property="og:type" content="website" />
           <meta
             property="og:description"
@@ -24,10 +19,22 @@ class Layout extends React.Component {
             key="og:description"
           />
           <meta
+            property="fb:app_id"
+            key="fb:app_id"
+            content="312908249186717"
+          />
+          <meta property="og:url" key="og:url" content="https://musory.com" />
+          <meta
             property="og:image"
             key="og:image"
             content="https://s3-us-west-1.amazonaws.com/twol/images/collage.gif"
           />
+          <meta
+            property="og:image:height"
+            key="og:image:height"
+            content="1121"
+          />
+          <meta property="og:image:width" key="og:image:width" content="3280" />
           <meta
             name="description"
             key="description"
