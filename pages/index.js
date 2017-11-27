@@ -93,10 +93,9 @@ class Index extends React.Component {
           .photo-background {
             height: 100vh;
             width: 100%;
-            background-image: url('https://s3-us-west-1.amazonaws.com/twol/images/collage.png');
+            background-image: url('https://s3-us-west-1.amazonaws.com/twol/images/collage.gif');
             background-size: cover;
             background-position: center;
-            background-attachment: fixed;
           }
 
           h3 {
