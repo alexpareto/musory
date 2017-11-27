@@ -56,8 +56,8 @@ class FacebookLogin extends React.Component {
       // Force a reload of all the current queries now that the user is
       // logged in
       this.props.client.resetStore().then(() => {
-        // Redirect to a more useful page when signed out
-        redirect({}, '/');
+        // Redirect to a more useful page when signed in
+        redirect({}, '/home');
       });
     } else {
       console.warn(`User did not authorize the Facebook application.`);

@@ -2,6 +2,7 @@ import React from 'react';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import Waypoint from 'react-waypoint';
+import Router from 'next/router';
 
 import withData from '../lib/withData';
 import redirect from './../lib/redirect';
@@ -31,6 +32,10 @@ class Home extends React.Component {
     return { loggedInUser };
   }
 
+  _refreshPosts = () => {
+    this.props.data.refetch();
+  };
+
   _renderNoPosts = () => {
     if (this.props.data.allPosts.length === 0) {
       return (
@@ -51,26 +56,21 @@ class Home extends React.Component {
     if (this.props.data.loading) {
       return <div>loading!</div>;
     }
-
-    if (!this.props.loggedInUser.username) {
-      return (
-        <Layout>
-          <AddUsername loggedInUser={this.props.loggedInUser} />
-        </Layout>
-      );
-    }
-
     return (
       <Layout>
         <Header loggedInUser={this.props.loggedInUser} url={this.props.url} />
         <MainContent>
           <div className="container page">
-            <CreatePost loggedInUser={this.props.loggedInUser} />
+            <CreatePost
+              loggedInUser={this.props.loggedInUser}
+              onPost={this._refreshPosts}
+            />
             {this.props.data.allPosts.map(post => (
               <Post
                 key={post.id}
                 id={post.id}
                 loggedInUser={this.props.loggedInUser}
+                onChange={this._refreshPosts}
               />
             ))}
             {this._renderNoPosts()}

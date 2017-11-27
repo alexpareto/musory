@@ -96,6 +96,8 @@ class CreatePost extends React.Component {
     await this.props.CreatePostMutation({
       variables: { content, imageUrl, authorId },
     });
+
+    this.props.onPost();
   };
 
   render() {

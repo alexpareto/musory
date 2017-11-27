@@ -25,15 +25,24 @@ class Story extends React.Component {
     return { loggedInUser };
   }
 
-  renderCreatePost() {
+  _refreshPosts = () => {
+    this.props.GetUserPosts.refetch();
+  };
+
+  renderCreatePost = () => {
     if (
       this.props.loggedInUser &&
       this.props.loggedInUser.username == this.props.url.query.username
     ) {
-      return <CreatePost loggedInUser={this.props.loggedInUser} />;
+      return (
+        <CreatePost
+          loggedInUser={this.props.loggedInUser}
+          onPost={this._refreshPosts}
+        />
+      );
     }
     return null;
-  }
+  };
 
   render() {
     if (this.props.GetUser.loading || this.props.GetUserPosts.loading) {
@@ -76,6 +85,7 @@ class Story extends React.Component {
                   key={post.id}
                   id={post.id}
                   loggedInUser={this.props.loggedInUser}
+                  onChange={this._refreshPosts}
                 />
               ))}
               <div style={{ height: 10 }}>

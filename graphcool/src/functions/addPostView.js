@@ -9,8 +9,10 @@ export default async event => {
 
     // get post
     const post = await getPost(api, id);
+
+    const newViews = post.views !== null ? post.views + 1 : 1;
     // add 1 to post views
-    await addView(api, id, post.views + 1);
+    await addView(api, id, newViews);
 
     // get graphcool user by facebook id
     return { data: { id } };
@@ -34,12 +36,12 @@ async function getPost(api, id) {
     id,
   };
 
-  return api.request(query, variables);
+  return api.request(query, variables).then(r => r.Post);
 }
 
 async function addView(api, id, views) {
   const mutation = `
-    mutation addView($id: ID!, $views: Int!) {
+    mutation updatePost($id: ID!, $views: Int!) {
       updatePost(
         id: $id
         views: $views
@@ -54,5 +56,5 @@ async function addView(api, id, views) {
     views,
   };
 
-  return api.request(mutation, variables);
+  return api.request(mutation, variables).then(r => r.updatePost);
 }

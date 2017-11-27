@@ -52,7 +52,7 @@ class About extends React.Component {
                 good or bad entries, no follower counts. Nothing is off limits.
                 twol exists to help you capture all those moments that maybe
                 aren't perfect enough for the big screen. After all, aren't
-                those the moments that, together, say the most?
+                those the moments that say the most?
               </p>
               <div className="fb-login">
                 <FacebookLogin

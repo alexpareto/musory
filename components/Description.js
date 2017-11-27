@@ -67,10 +67,10 @@ class CreatePost extends React.Component {
           <style jsx>{`
             textarea {
               background-color: #fafafa;
-              border: none;
               padding: 0;
               resize: none;
               text-align: center;
+              border: none;
             }
 
             textarea:hover {

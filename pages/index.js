@@ -40,22 +40,40 @@ class Index extends React.Component {
           </div>
         </div>
         <div className="section">
+          <div className="photo-background" />
+        </div>
+        <div className="section">
           <div className="lander-content">
             <div className="container">
-              <h1>how it works</h1>
+              <div className="info-header">
+                <h3>no likes</h3>
+                <h3>no comments</h3>
+                <h3>no character limits</h3>
+                <h3>no numbers</h3>
+                <h2>just you</h2>
+              </div>
+            </div>
+          </div>
+          <div className="fb-login">
+            <FacebookLogin loggedInUser={this.props.loggedInUser} />
+          </div>
+        </div>
+        <div className="separator" />
+        <div className="section">
+          <div className="lander-content">
+            <div className="container">
+              <h3>Share what you want.</h3>
               <p>
-                twol is about sharing your story in your own way. Create an
-                entry for your thoughts, the crazy thing that happened to you
-                last weekend, a picture of your cat, your fears, your goals,
-                your coffee, a new pen, share links, whatever. There are no
-                likes because this isn't about sharing for others - it's about
-                sharing for you.
+                Create an entry of your thoughts, the crazy thing that happened
+                to you last weekend, that time you got too much sugar from
+                Starbucks, that song that's stuck in your head, when you got the
+                highest grade on a test, what it was like waking up, a perfectly
+                normal dream you had, a passing thought about cacti, whatever.
               </p>
-              <h3>1. no likes</h3>
-              <h3>2. no comments</h3>
-              <h3>3. no character limits</h3>
-              <h3>4. no titles</h3>
-              <h3>5. all public</h3>
+              <p>
+                There are no likes because this is not about sharing for others
+                - it's about sharing for you.
+              </p>
             </div>
           </div>
           <div className="fb-login">
@@ -69,6 +87,38 @@ class Index extends React.Component {
             display: flex;
             justify-content: center;
             flex-direction: column;
+            background-color: #fff;
+          }
+
+          .photo-background {
+            height: 100vh;
+            width: 100%;
+            background-image: url('https://s3-us-west-1.amazonaws.com/twol/images/collage.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+          }
+
+          h3 {
+            text-align: center;
+          }
+
+          p {
+            text-align: justify;
+          }
+
+          .info-header {
+            text-align: center;
+          }
+
+          .overlay {
+            height: 100%;
+            width: 100%;
+            background-color: rgba(0,0,0,0.6);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
           }
 
           .fb-login {

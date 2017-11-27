@@ -3,6 +3,7 @@ import { GraphQLClient } from 'graphql-request';
 
 interface User {
   id: string;
+  username: string;
 }
 
 export default async (event: FunctionEvent<{}>) => {

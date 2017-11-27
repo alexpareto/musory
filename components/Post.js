@@ -15,19 +15,14 @@ class Post extends React.Component {
     };
   }
   componentDidMount() {
-    /*
     this.props
       .addViewMutation({
-        variables: { id: this.props.data.Post.id },
+        variables: { id: this.props.id },
       })
-      .then(response => {
-        console.log('add view success!');
-      })
+      .then(response => {})
       .catch(error => {
         console.error(error);
       });
-
-    */
   }
 
   _renderDeleteIcon = () => {
@@ -222,6 +217,7 @@ class Post extends React.Component {
     await this.props.deletePostMutation({
       variables: { id: this.props.data.Post.id },
     });
+    this.props.onChange();
   };
 
   _insertBreak = () => {

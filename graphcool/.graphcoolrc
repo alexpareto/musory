@@ -1,3 +1,4 @@
 targets:
   dev: local/cjaae36c600430180z9e63t9a
   default: dev
+  prod: shared-us-west-2/cjahdi54z14va0171wh9zah22
