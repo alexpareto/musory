@@ -93,11 +93,23 @@ class Header extends React.Component {
           }
 
           .fb {
-            width: 80px;
+            width: 200px;
           }
 
           .links {
-            width: 80px;
+            display: none;
+          }
+
+          /* Larger than mobile */
+          @media (min-width: 400px) {
+            .links {
+              width: 80px;
+              display: inline-block;
+            }
+
+            .fb {
+              width: 80px;
+            }
           }
         `}</style>
       </div>

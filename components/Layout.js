@@ -8,7 +8,7 @@ import Head from 'next/head';
 class Layout extends React.Component {
   render() {
     return (
-      <div>
+      <div className="body">
         <Head>
           <title>Musory</title>
           <meta key="og:title" property="og:title" content="Musory" />
@@ -53,6 +53,39 @@ class Layout extends React.Component {
           <link rel="stylesheet" href="/static/skeleton.css" />
         </Head>
         {this.props.children}
+        <div className="footer">
+          <div />
+          <div>
+            <a href="https://baroo.io/terms.html">Terms of Service</a>
+            <a href="https://baroo.io/privacy.html">Privacy Policy</a>
+          </div>
+        </div>
+        <style jsx>{`
+          .body {
+            min-height: 100vh;
+          }
+
+          .footer {
+            width: 100%;
+            height: 50px;
+            background-color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          }
+
+          a {
+            color: #e6e6e6;
+            underline: none;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding-right: 10px;
+          }
+
+          a:hover {
+            color: #666;
+          }
+        `}</style>
       </div>
     );
   }

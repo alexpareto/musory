@@ -6,7 +6,7 @@ import redirect from '../lib/redirect';
 import checkLoggedIn from '../lib/checkLoggedIn';
 
 import Layout from './../components/Layout';
-
+import Header from './../components/Header';
 /*
 * landing/login page
 *
@@ -29,6 +29,7 @@ class Index extends React.Component {
 
     return (
       <Layout>
+        <Header loggedInUser={this.props.loggedInUser} url={this.props.url} />
         <div className="section">
           <div className="container">
             <div className="lander-content">
@@ -50,12 +51,8 @@ class Index extends React.Component {
                 <h3>no comments</h3>
                 <h3>no character limits</h3>
                 <h3>no numbers</h3>
-                <h2>just you</h2>
               </div>
             </div>
-          </div>
-          <div className="fb-login">
-            <FacebookLogin loggedInUser={this.props.loggedInUser} />
           </div>
         </div>
         <div className="separator" />
@@ -75,9 +72,6 @@ class Index extends React.Component {
                 - it's about sharing for you.
               </p>
             </div>
-          </div>
-          <div className="fb-login">
-            <FacebookLogin loggedInUser={this.props.loggedInUser} />
           </div>
         </div>
         <style jsx>{`
