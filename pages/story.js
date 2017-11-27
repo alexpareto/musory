@@ -2,6 +2,7 @@ import React from 'react';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import Waypoint from 'react-waypoint';
+import Head from 'next/head';
 
 import withData from '../lib/withData';
 import checkLoggedIn from './../lib/checkLoggedIn';
@@ -51,6 +52,25 @@ class Story extends React.Component {
 
     return (
       <Layout>
+        <Head>
+          <meta
+            name="og:title"
+            property="og:title"
+            content={this.props.GetUser.User.username + "'s story on Musory"}
+          />
+          <meta property="og:type" content="website" />
+          <meta
+            property="og:description"
+            content={this.props.GetUser.User.description}
+            key="og:description"
+          />
+          <meta
+            name="description"
+            key="description"
+            content={this.props.GetUser.User.description}
+          />
+        </Head>
+
         <Header loggedInUser={this.props.loggedInUser} url={this.props.url} />
         <MainContent>
           <div className="container">

@@ -10,7 +10,29 @@ class Layout extends React.Component {
     return (
       <div>
         <Head>
-          <title>twol</title>
+          <title>Musory</title>
+          <meta
+            key="og:title"
+            name="og:title"
+            property="og:title"
+            content="Musory"
+          />
+          <meta property="og:type" content="website" />
+          <meta
+            property="og:description"
+            content="Tell your story, your way."
+            key="og:description"
+          />
+          <meta
+            property="og:image"
+            key="og:image"
+            content="https://s3-us-west-1.amazonaws.com/twol/images/collage.gif"
+          />
+          <meta
+            name="description"
+            key="description"
+            content="Tell your story, your way."
+          />
           <meta
             name="viewport"
             content="initial-scale=1.0, width=device-width"

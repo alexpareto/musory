@@ -1,4 +1,7 @@
 import React from 'react';
+import Head from 'next/head';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 
 import withData from '../lib/withData';
 import checkLoggedIn from './../lib/checkLoggedIn';
@@ -19,13 +22,38 @@ class PostPage extends React.Component {
     return { loggedInUser };
   }
 
-  onComponentWillMount() {
-    this.props.data.GetPost();
-  }
-
   render() {
+    if (this.props.data.loading) {
+      return <div>loading!</div>;
+    }
+
     return (
       <Layout>
+        <Head>
+          <meta
+            name="og:title"
+            property="og:title"
+            content={
+              this.props.data.Post.author.username + "'s entry on Musory"
+            }
+          />
+          <meta property="og:type" content="website" />
+          <meta
+            property="og:image"
+            key="og:image"
+            content={this.props.data.Post.imageUrl}
+          />
+          <meta
+            property="og:description"
+            content={this.props.data.Post.content}
+            key="og:description"
+          />
+          <meta
+            name="description"
+            key="description"
+            content={this.props.data.Post.content}
+          />
+        </Head>
         <Header loggedInUser={this.props.loggedInUser} />
         <MainContent>
           <div>
@@ -40,4 +68,26 @@ class PostPage extends React.Component {
   }
 }
 
-export default withData(PostPage);
+const GET_POST = gql`
+  query GetPost($id: ID!) {
+    Post(id: $id) {
+      id
+      imageUrl
+      content
+      views
+      createdAt
+      author {
+        id
+        username
+      }
+    }
+  }
+`;
+
+export default withData(
+  graphql(GET_POST, {
+    options: props => ({
+      variables: { id: props.url.query.id },
+    }),
+  })(PostPage),
+);
