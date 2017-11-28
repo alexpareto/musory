@@ -74,6 +74,7 @@ class Post extends React.Component {
           <style jsx>{`
             img {
               width: 100%;
+              image-orientation: from-image;
             }
 
             .post-header {
