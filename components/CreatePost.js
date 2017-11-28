@@ -60,7 +60,7 @@ class CreatePost extends React.Component {
   };
 
   _renderButton = () => {
-    if (!this.state.content) {
+    if (!this.state.content && !this.state.imageUrl) {
       return null;
     }
     return <Button text="Post" onClick={this._handleCreatePost} />;
