@@ -6,6 +6,7 @@ import moment from 'moment';
 
 import Icon from './Icon';
 import Modal from './Modal';
+import CreateComment from './CreateComment';
 
 class Post extends React.Component {
   constructor(props) {
@@ -132,6 +133,73 @@ class Post extends React.Component {
     );
   };
 
+  renderComment = comment => {
+    return (
+      <div key={comment.id}>
+        <span className="post-header">
+          <Link
+            as={`/story/${comment.author.username}`}
+            href={`/story?username=${comment.author.username}`}
+          >
+            <a>{comment.author.username}</a>
+          </Link>
+        </span>
+
+        {comment.content}
+        <style jsx>{`
+          div {
+            padding: 16px;
+          }
+          .post-header {
+            font-weight: bold;
+            padding-right: 5px;
+          }
+
+          .post-header a {
+            color: inherit;
+            underline: none;
+            text-decoration: none;
+          }
+        `}</style>
+      </div>
+    );
+  };
+
+  _renderComments = () => {
+    if (this.props.comments.loading) {
+      return <span>Loading</span>;
+    }
+    return (
+      <div>
+        <div className="comments-text">Comments:</div>
+        {this.props.comments.allComments.map(comment =>
+          this.renderComment(comment),
+        )}
+        <div className="add-comment">
+          <CreateComment
+            postId={this.props.id}
+            loggedInUser={this.props.loggedInUser}
+            onPost={this._refreshComments}
+          />
+        </div>
+        <style jsx>{`
+          .comments-text {
+            color: #e6e6e6;
+            padding: 0 16px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+          }
+        `}</style>
+      </div>
+    );
+  };
+
+  _refreshComments = () => {
+    this.props.comments.refetch();
+  };
+
   _renderPost = () => {
     if (this.props.data.loading) {
       return <span>Loading</span>;
@@ -156,6 +224,8 @@ class Post extends React.Component {
             </Link>
           </div>
         </div>
+        {this._renderComments()}
+
         <style jsx>{`
           .post-meta {
             color: #e6e6e6;
@@ -305,13 +375,33 @@ const ADD_VIEW = gql`
   }
 `;
 
+const GET_COMMENTS = gql`
+  query GetComments($postId: ID!) {
+    allComments(filter: { post: { id: $postId } }, orderBy: createdAt_ASC) {
+      id
+      content
+      author {
+        username
+      }
+    }
+  }
+`;
+
 export default compose(
   graphql(ADD_VIEW, { name: 'addViewMutation' }),
   graphql(GET_POST, {
     options: props => ({
       variables: { id: props.id },
     }),
+    name: 'data',
   }),
+  graphql(GET_COMMENTS, {
+    options: props => ({
+      variables: { postId: props.id },
+    }),
+    name: 'comments',
+  }),
+
   graphql(DELETE_POST, {
     name: 'deletePostMutation',
   }),

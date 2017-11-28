@@ -38,4 +38,6 @@ type Comment @model {
   content: String!
   author: User @relation(name: "CommentsByUser")
   post: Post @relation(name: "PostToComments")
+  createdAt: DateTime! # read-only (managed by Graphcool)
+  updatedAt: DateTime! # read-only (managed by Graphcoolg)
 }
