@@ -41,8 +41,8 @@ class FollowButton extends React.Component {
 const REMOVE_FOLLOWER = gql`
   mutation RemoveFollower($idFollowed: ID!, $idFollowing: ID!) {
     removeFromFollowedByUser(
-      followingUserId: $idFollowing
-      isFollowedByUserId: $idFollowed
+      followingUserId: $idFollowed
+      isFollowedByUserId: $idFollowing
     ) {
       followingUser {
         id
@@ -54,8 +54,8 @@ const REMOVE_FOLLOWER = gql`
 const ADD_FOLLOWER = gql`
   mutation AddFollower($idFollowed: ID!, $idFollowing: ID!) {
     addToFollowedByUser(
-      followingUserId: $idFollowing
-      isFollowedByUserId: $idFollowed
+      followingUserId: $idFollowed
+      isFollowedByUserId: $idFollowing
     ) {
       followingUser {
         id

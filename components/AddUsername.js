@@ -1,6 +1,7 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
+import Router from 'next/router';
 
 import redirect from './../lib/redirect';
 
@@ -44,8 +45,7 @@ class AddUsername extends React.Component {
     const response = await this.props.AddUsernameMutation({
       variables: { id: id, username: username },
     });
-
-    redirect({}, '/home');
+    window.location.replace('/home');
   };
 
   render() {
