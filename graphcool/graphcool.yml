@@ -69,6 +69,11 @@ permissions:
     authenticated: true
     query: src/permissions/Post.graphql
 
+  - operation: Post.update
+    authenticated: true
+    fields:
+      - comments
+
   - operation: Post.delete
     authenticated: true
     query: src/permissions/Post.graphql
@@ -89,6 +94,7 @@ permissions:
       - username
       - description
       - following
+      - comments
 
   - operation: FollowedByUser.connect
     authenticated: true
@@ -106,7 +112,19 @@ permissions:
     authenticated: true
     query: src/permissions/User.graphql:DeleteUser
 
+  - operation: Comment.create
+    authenticated: true
 
+  - operation: Comment.read
+
+  - operation: Comment.update
+    authenticated: true
+
+  - operation: CommentsByUser.connect
+    authenticated: true
+
+  - operation: PostToComments.connect
+    authenticated: true
 
 # Your root tokens used for functions to get full access to the API
 # Read more here:

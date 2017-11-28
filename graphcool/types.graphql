@@ -17,6 +17,7 @@ type User @model {
   description: String
   isFollowedBy: [User!]! @relation(name: "FollowedByUser")
   following: [User!]! @relation(name: "FollowedByUser")
+  comments: [Comment!]! @relation(name: "CommentsByUser")
 }
 
 type Post @model {
@@ -29,4 +30,12 @@ type Post @model {
   imageUrl: String
   views: Int! @defaultValue(value: 0)
   author: User @relation(name: "PostsByUser")
+  comments: [Comment!]! @relation(name: "PostToComments")
+}
+
+type Comment @model {
+  id: ID! @isUnique
+  content: String!
+  author: User @relation(name: "CommentsByUser")
+  post: Post @relation(name: "PostToComments")
 }
