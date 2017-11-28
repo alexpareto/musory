@@ -148,7 +148,7 @@ class Post extends React.Component {
         {comment.content}
         <style jsx>{`
           div {
-            padding: 16px;
+            padding: 3px 18px;
           }
           .post-header {
             font-weight: bold;
@@ -171,7 +171,7 @@ class Post extends React.Component {
     }
     return (
       <div>
-        <div className="comments-text">Comments:</div>
+        <hr />
         {this.props.comments.allComments.map(comment =>
           this.renderComment(comment),
         )}
@@ -183,6 +183,13 @@ class Post extends React.Component {
           />
         </div>
         <style jsx>{`
+          hr {
+            margin: 0;
+            margin-bottom: 10px;
+            color: #e6e6e6;
+            background-color: #e6e6e6;
+          }
+
           .comments-text {
             color: #e6e6e6;
             padding: 0 16px;
