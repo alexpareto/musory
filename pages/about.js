@@ -6,6 +6,7 @@ import FacebookLogin from '../components/FacebookLogin';
 import Layout from './../components/Layout';
 import Header from './../components/Header';
 import MainContent from './../components/MainContent';
+import Loading from './../components/Loading';
 
 /*
 * header page
@@ -24,7 +25,7 @@ class About extends React.Component {
 
   render() {
     if (this.props.data && this.props.data.loading) {
-      return <div>loading!</div>;
+      return <Loading />;
     }
 
     return (
@@ -47,12 +48,12 @@ class About extends React.Component {
                 thoughts forgotten in this so-called quality anxiety.
               </p>
               <p>
-                twol is sharing for you. Make a photo entry. Write a three page
-                story. Share a passing thought. There are no likes or hearts, no
-                good or bad entries, no follower counts. Nothing is off limits.
-                twol exists to help you capture all those moments that maybe
-                aren't perfect enough for the big screen. After all, aren't
-                those the moments that say the most?
+                musory is sharing for you. Make a photo entry. Write a three
+                page story. Share a passing thought. There are no likes or
+                hearts, no good or bad entries, no follower counts. Nothing is
+                off limits. musory exists to help you capture all those moments
+                that maybe aren't perfect enough for the big screen. After all,
+                aren't those the moments that say the most?
               </p>
               <div className="fb-login">
                 <FacebookLogin

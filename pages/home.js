@@ -14,6 +14,7 @@ import Post from './../components/Post';
 import CreatePost from './../components/CreatePost';
 import AddUsername from './../components/AddUsername';
 import Header from './../components/Header';
+import Loading from './../components/Loading';
 
 /*
 * Feed/home page
@@ -40,8 +41,8 @@ class Home extends React.Component {
     if (this.props.data.allPosts.length === 0) {
       return (
         <p>
-          This is your feed. It includes everyone that you follow. Try making a
-          post above!
+          This is your feed. It includes everyone that you follow and you! Try
+          making a post above!
           <style jsx>{`
             p {
               text-align: center;
@@ -54,7 +55,7 @@ class Home extends React.Component {
 
   render() {
     if (this.props.data.loading) {
-      return <div>loading!</div>;
+      return <Loading />;
     }
     return (
       <Layout>
@@ -87,7 +88,12 @@ class Home extends React.Component {
 const ALL_POSTS = gql`
   query AllPostsQuery($id: ID!, $first: Int!, $skip: Int!) {
     allPosts(
-      filter: { author: { isFollowedBy_some: { id: $id } } }
+      filter: {
+        OR: [
+          { author: { isFollowedBy_some: { id: $id } } }
+          { author: { id: $id } }
+        ]
+      }
       orderBy: createdAt_DESC
       first: $first
       skip: $skip

@@ -55,6 +55,8 @@ class FacebookLogin extends React.Component {
 
       // Force a reload of all the current queries now that the user is
       // logged in
+      redirect({}, '/home');
+
       this.props.client.resetStore().then(() => {
         // Redirect to a more useful page when signed in
         redirect({}, '/home');
@@ -68,6 +70,8 @@ class FacebookLogin extends React.Component {
     document.cookie = cookie.serialize('token', '', {
       maxAge: -1, // Expire the cookie immediately
     });
+    redirect({}, '/');
+
     this.props.client.resetStore().then(() => {
       // Redirect to a more useful page when signed out
       redirect({}, '/');

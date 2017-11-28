@@ -14,6 +14,7 @@ import Header from './../components/Header';
 import Description from './../components/Description';
 import MainContent from './../components/MainContent';
 import FollowButton from './../components/FollowButton';
+import Loading from './../components/Loading';
 
 /*
 * Individual post page
@@ -59,7 +60,7 @@ class Story extends React.Component {
 
   render() {
     if (this.props.GetUser.loading || this.props.GetUserPosts.loading) {
-      return <div>loading!</div>;
+      return <Loading />;
     }
 
     return (

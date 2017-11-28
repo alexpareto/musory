@@ -7,6 +7,8 @@ import checkLoggedIn from '../lib/checkLoggedIn';
 
 import Layout from './../components/Layout';
 import Header from './../components/Header';
+import Loading from './../components/Loading';
+
 /*
 * landing/login page
 *
@@ -24,7 +26,7 @@ class Index extends React.Component {
 
   render() {
     if (this.props.data && this.props.data.loading) {
-      return <div>loading!</div>;
+      return <Loading />;
     }
 
     return (

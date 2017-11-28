@@ -10,6 +10,7 @@ import Post from './../components/Post';
 import Header from './../components/Header';
 import Layout from './../components/Layout';
 import MainContent from './../components/MainContent';
+import Loading from './../components/Loading';
 
 /*
 * Individual post page
@@ -63,7 +64,7 @@ class PostPage extends React.Component {
         </Layout>
       );
     }
-    return <div>Loading</div>;
+    return <Loading />;
   }
 }
 
