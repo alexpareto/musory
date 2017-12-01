@@ -110,7 +110,7 @@ class CreatePost extends React.Component {
               this.textArea = ref;
             }}
             name="content"
-            placeholder="Add an entry..."
+            placeholder="Create a muse..."
             value={this.state.content}
             onChange={this._handleInputChange}
           />

@@ -71,7 +71,11 @@ class CreatePost extends React.Component {
               this.textArea = ref;
             }}
             name="content"
-            placeholder="Add a comment..."
+            placeholder={
+              this.props.placeholder
+                ? this.props.placeholder
+                : 'Add a private reply...'
+            }
             value={this.state.content}
             onChange={this._handleInputChange}
           />

@@ -165,9 +165,109 @@ class Post extends React.Component {
     );
   };
 
+  _renderAfterThought = comment => {
+    return (
+      <div key={comment.id}>
+        {comment.content}
+        <style jsx>{`
+          div {
+            padding: 3px 18px;
+          }
+          .post-header {
+            font-weight: bold;
+            padding-right: 5px;
+          }
+
+          .post-header a {
+            color: inherit;
+            underline: none;
+            text-decoration: none;
+          }
+        `}</style>
+      </div>
+    );
+  };
+
+  _renderCreateAfterThought = () => {
+    if (this.props.loggedInUser.id !== this.props.data.Post.author.id) {
+      return null;
+    }
+    return (
+      <div className="add-comment">
+        <CreateComment
+          placeholder="Add a public after thought..."
+          postId={this.props.id}
+          loggedInUser={this.props.loggedInUser}
+          onPost={this._refreshComments}
+        />
+      </div>
+    );
+  };
+
+  _renderAfterThoughts = () => {
+    if (this.props.afterThoughts.loading) {
+      return <span>Loading</span>;
+    } else if (
+      this.props.afterThoughts.allComments.length == 0 &&
+      this.props.loggedInUser.id !== this.props.data.Post.author.id
+    ) {
+      return null;
+    }
+    return (
+      <div>
+        <hr />
+        {this.props.afterThoughts.allComments.map(comment =>
+          this.renderComment(comment),
+        )}
+        {this._renderCreateAfterThought()}
+        <style jsx>{`
+          hr {
+            margin: 0;
+            margin-bottom: 10px;
+            color: #e6e6e6;
+            background-color: #e6e6e6;
+          }
+
+          .comments-text {
+            color: #e6e6e6;
+            padding: 0 16px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+          }
+
+          div {
+            margin-bottom: 10;
+          }
+        `}</style>
+      </div>
+    );
+  };
+
+  _renderCreateComment = () => {
+    if (this.props.loggedInUser.id === this.props.data.Post.author.id) {
+      return null;
+    }
+    return (
+      <div className="add-comment">
+        <CreateComment
+          postId={this.props.id}
+          loggedInUser={this.props.loggedInUser}
+          onPost={this._refreshComments}
+        />
+      </div>
+    );
+  };
+
   _renderComments = () => {
     if (this.props.comments.loading) {
       return <span>Loading</span>;
+    } else if (
+      this.props.comments.allComments.length == 0 &&
+      this.props.loggedInUser.id === this.props.data.Post.author.id
+    ) {
+      return null;
     }
     return (
       <div>
@@ -175,13 +275,7 @@ class Post extends React.Component {
         {this.props.comments.allComments.map(comment =>
           this.renderComment(comment),
         )}
-        <div className="add-comment">
-          <CreateComment
-            postId={this.props.id}
-            loggedInUser={this.props.loggedInUser}
-            onPost={this._refreshComments}
-          />
-        </div>
+        {this._renderCreateComment()}
         <style jsx>{`
           hr {
             margin: 0;
@@ -231,6 +325,7 @@ class Post extends React.Component {
             </Link>
           </div>
         </div>
+        {this._renderAfterThoughts()}
         {this._renderComments()}
 
         <style jsx>{`
@@ -383,8 +478,37 @@ const ADD_VIEW = gql`
 `;
 
 const GET_COMMENTS = gql`
+  query GetComments($postId: ID!, $loggedInUser: ID!) {
+    allComments(
+      filter: {
+        OR: [
+          {
+            post: { id: $postId }
+            author: { id: $loggedInUser, posts_none: { id: $postId } }
+          }
+          {
+            post: { id: $postId, author: { id: $loggedInUser } }
+            author: { posts_none: { id: $postId } }
+          }
+        ]
+      }
+      orderBy: createdAt_ASC
+    ) {
+      id
+      content
+      author {
+        username
+      }
+    }
+  }
+`;
+
+const GET_AFTER_THOUGHTS = gql`
   query GetComments($postId: ID!) {
-    allComments(filter: { post: { id: $postId } }, orderBy: createdAt_ASC) {
+    allComments(
+      filter: { post: { id: $postId }, author: { posts_some: { id: $postId } } }
+      orderBy: createdAt_ASC
+    ) {
       id
       content
       author {
@@ -404,11 +528,16 @@ export default compose(
   }),
   graphql(GET_COMMENTS, {
     options: props => ({
-      variables: { postId: props.id },
+      variables: { postId: props.id, loggedInUser: props.loggedInUser.id },
     }),
     name: 'comments',
   }),
-
+  graphql(GET_AFTER_THOUGHTS, {
+    options: props => ({
+      variables: { postId: props.id },
+    }),
+    name: 'afterThoughts',
+  }),
   graphql(DELETE_POST, {
     name: 'deletePostMutation',
   }),
