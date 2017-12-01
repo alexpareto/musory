@@ -19,7 +19,13 @@ app
 
     // individual entries
     server.get('/entry/:id', (req, res) => {
-      const actualPage = '/entry';
+      const actualPage = '/muse';
+      const queryParams = { id: req.params.id };
+      app.render(req, res, actualPage, queryParams);
+    });
+
+    server.get('/muse/:id', (req, res) => {
+      const actualPage = '/muse';
       const queryParams = { id: req.params.id };
       app.render(req, res, actualPage, queryParams);
     });

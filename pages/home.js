@@ -42,7 +42,7 @@ class Home extends React.Component {
       return (
         <p>
           This is your feed. It includes everyone that you follow and you! Try
-          making a post above!
+          making a muse above!
           <style jsx>{`
             p {
               text-align: center;

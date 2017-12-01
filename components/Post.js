@@ -222,8 +222,8 @@ class Post extends React.Component {
           <div className="actions">
             {this._renderDeleteIcon()}
             <Link
-              as={`/entry/${this.props.id}`}
-              href={`/entry?id=${this.props.id}`}
+              as={`/muse/${this.props.id}`}
+              href={`/muse?id=${this.props.id}`}
             >
               <a className="post-meta-share">
                 <Icon name="share" />
@@ -313,7 +313,7 @@ class Post extends React.Component {
     if (!this.props.data.Post && !this.props.data.loading) {
       return (
         <div className="container">
-          <h3>Uh oh, that entry doesn't exist.</h3>
+          <h3>Uh oh, that muse doesn't exist.</h3>
           <Link href="/home">
             <a>Go home</a>
           </Link>
