@@ -40,9 +40,7 @@ class UploadImage extends React.Component {
       method: 'PUT',
       body: file, // This is the content of your file
     })
-      .then(
-        response => response.text(), // if the response is a JSON object
-      )
+      .then(response => response.text())
       .then(
         success => this.props.setImage(data.SignedUrl.getUrl), // Handle the success response object
       )
