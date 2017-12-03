@@ -1,5 +1,5 @@
 import React from 'react';
-import { graphql } from 'react-apollo';
+import { compose, withApollo, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import autosize from 'autosize';
 
@@ -13,6 +13,8 @@ class CreatePost extends React.Component {
     this.state = {
       content: '',
       imageUrl: '',
+      imageType: '',
+      imageExtension: '',
     };
   }
 
@@ -20,9 +22,11 @@ class CreatePost extends React.Component {
     autosize(this.textArea);
   }
 
-  _setImage = url => {
+  _setImage = (url, type, extension) => {
     this.setState({
       imageUrl: url,
+      imageType: type,
+      imageExtension: extension,
     });
   };
 
@@ -59,6 +63,32 @@ class CreatePost extends React.Component {
     );
   };
 
+  _handleUploadImage = async (file, type, extension) => {
+    var body = new FormData();
+    body.append('file', file);
+    const { data } = await this.props.client.query({
+      query: GET_SIGNED_URL,
+      variables: {
+        filePath:
+          Math.random()
+            .toString(36)
+            .substring(7) +
+          '.' +
+          extension,
+      },
+    });
+    const url = data.SignedUrl.signedUrl;
+    return fetch(url, {
+      method: 'PUT',
+      body: file, // This is the content of your file
+    })
+      .then(response => response.text())
+      .then(success => data.SignedUrl.getUrl)
+      .catch(
+        error => console.log(error), // Handle the error response object
+      );
+  };
+
   _renderButton = () => {
     if (!this.state.content && !this.state.imageUrl) {
       return null;
@@ -85,7 +115,21 @@ class CreatePost extends React.Component {
       return;
     }
 
-    const { content, imageUrl } = this.state;
+    const { content } = this.state;
+
+    // upload image if we have one
+    let imageUrl = '';
+    if (this.state.imageUrl) {
+      const image = await fetch(this.state.imageUrl).then(function(response) {
+        return response.blob();
+      });
+      imageUrl = await this._handleUploadImage(
+        image,
+        this.state.imageType,
+        this.state.imageExtension,
+      );
+    }
+
     const authorId = loggedInUser.id;
 
     this.setState({
@@ -168,6 +212,16 @@ class CreatePost extends React.Component {
   }
 }
 
+const GET_SIGNED_URL = gql`
+  query GetSignedUrl($filePath: String!) {
+    SignedUrl(filePath: $filePath) {
+      fileName
+      signedUrl
+      getUrl
+    }
+  }
+`;
+
 const CREATE_POST = gql`
   mutation CreatePost($content: String!, $imageUrl: String, $authorId: ID!) {
     createPost(content: $content, imageUrl: $imageUrl, authorId: $authorId) {
@@ -176,4 +230,7 @@ const CREATE_POST = gql`
   }
 `;
 
-export default graphql(CREATE_POST, { name: 'CreatePostMutation' })(CreatePost);
+export default compose(
+  withApollo,
+  graphql(CREATE_POST, { name: 'CreatePostMutation' }),
+)(CreatePost);

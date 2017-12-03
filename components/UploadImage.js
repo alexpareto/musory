@@ -2,73 +2,47 @@ import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import Dropzone from 'react-dropzone';
+import loadImage from 'blueimp-load-image';
 
 import Button from './Button';
 
 class UploadImage extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {};
   }
 
   _onDrop = (acceptedFiles, rejectedFiles) => {
-    this._handleUploadImage(
+    var img = loadImage(
       acceptedFiles[0],
+      function(img) {},
+      {
+        maxWidth: 600,
+        orientation: true,
+        canvas: true,
+        noRevoke: true,
+      }, // Options
+    );
+    console.log(img);
+    var dataUrl = img.src;
+    this.props.setImage(
+      dataUrl,
       acceptedFiles[0].type,
       acceptedFiles[0].name.split('.').pop(),
     );
   };
 
-  _handleUploadImage = async (file, type, extension) => {
-    var body = new FormData();
-    body.append('file', file);
-    const { data } = await this.props.client.query({
-      query: GET_SIGNED_URL,
-      variables: {
-        filePath:
-          Math.random()
-            .toString(36)
-            .substring(7) +
-          '.' +
-          extension,
-      },
-    });
-    const url = data.SignedUrl.signedUrl;
-    fetch(url, {
-      // Your POST endpoint
-      method: 'PUT',
-      body: file, // This is the content of your file
-    })
-      .then(response => response.text())
-      .then(
-        success => this.props.setImage(data.SignedUrl.getUrl), // Handle the success response object
-      )
-      .catch(
-        error => console.log(error), // Handle the error response object
-      );
-  };
-
   render() {
     if (this.props.loggedInUser) {
       return (
-        <Dropzone className="image-drop-zone" onDrop={this._onDrop}>
-          <Button text="Add a photo..." />
-        </Dropzone>
+        <div>
+          <Dropzone className="image-drop-zone" onDrop={this._onDrop}>
+            <Button text="Add a photo..." />
+          </Dropzone>
+        </div>
       );
     }
     return null;
   }
 }
-
-const GET_SIGNED_URL = gql`
-  query GetSignedUrl($filePath: String!) {
-    SignedUrl(filePath: $filePath) {
-      fileName
-      signedUrl
-      getUrl
-    }
-  }
-`;
 
 export default withApollo(UploadImage);
