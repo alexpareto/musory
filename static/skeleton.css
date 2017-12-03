@@ -271,12 +271,13 @@ a:hover {
 
 /* forms
 -------------------------------------------------- */
+
 textarea {
   width: 100%;
   display: block;
   resize: none;
   border: 1px solid #eee;
-  outline: 0px none transparent;
+  outline: 0 none transparent;
   transition: all 0.3s ease;
   padding: 16px 10px;
   box-sizing: border-box;
@@ -284,9 +285,16 @@ textarea {
   -webkit-appearance: none;
 }
 
+input {
+  border: 1px solid #eee;
+  outline: 0 none transparent;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+}
+
 textarea:focus,
 input:focus {
-  outline: 0;
   border: 1px solid #222;
   -webkit-appearance: none;
 }

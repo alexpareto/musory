@@ -4,6 +4,7 @@ import { compose, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import Waypoint from 'react-waypoint';
 import Link from 'next/link';
+import Router from 'next/router';
 
 import withData from '../lib/withData';
 import redirect from './../lib/redirect';
@@ -36,6 +37,7 @@ class Friends extends React.Component {
     this.state = {
       friends: [],
       loading: true,
+      name: '',
     };
   }
 
@@ -157,6 +159,25 @@ class Friends extends React.Component {
     );
   };
 
+  _handleInputChange = event => {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value,
+    });
+  };
+
+  _handleKeyPress = e => {
+    if (e.key === 'Enter') {
+      Router.push(
+        `/story?username=${this.state.name}`,
+        `/story/${this.state.name}`,
+      );
+    }
+  };
+
   render() {
     if (this.state.loading) {
       return <Loading />;
@@ -166,6 +187,18 @@ class Friends extends React.Component {
         <Header loggedInUser={this.props.loggedInUser} url={this.props.url} />
         <MainContent>
           <div className="container page">
+            <h4>Find a user by username</h4>
+            <div className="username-holder">
+              <input
+                name="name"
+                placeholder="Type a username..."
+                className="find-username"
+                onChange={this._handleInputChange}
+                onKeyPress={this._handleKeyPress}
+                value={this.state.name}
+                autocomplete="off"
+              />
+            </div>
             <h4>Your Facebook friends on Musory</h4>
             {this.state.friends.map(this.renderFriend)}
           </div>
@@ -174,6 +207,19 @@ class Friends extends React.Component {
           h4 {
             text-align: center;
             margin-bottom: 20px;
+          }
+
+          .username-holder {
+            text-align: center;
+            margin-bottom: 40px;
+          }
+
+          .find-username {
+            text-align: center;
+            margin: 0 auto;
+            display: inline-block;
+            box-sizing: border-box;
+            height: 30px;
           }
         `}</style>
       </Layout>
