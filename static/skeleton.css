@@ -260,6 +260,12 @@ p {
   margin-top: 0;
 }
 
+a {
+  color: inherit;
+  underline: none;
+  text-decoration: none;
+}
+
 /* forms
 -------------------------------------------------- */
 textarea {

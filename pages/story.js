@@ -15,6 +15,7 @@ import Description from './../components/Description';
 import MainContent from './../components/MainContent';
 import FollowButton from './../components/FollowButton';
 import Loading from './../components/Loading';
+import FacebookLogin from './../components/FacebookLogin';
 
 /*
 * Individual post page
@@ -116,6 +117,10 @@ class Story extends React.Component {
                 <span className="story-follow-button">
                   {this._renderFollowButton()}
                 </span>
+                <FacebookLogin
+                  loggedInUser={this.props.loggedInUser}
+                  showLogout={true}
+                />
               </div>
             </div>
             <div className="two-thirds column">

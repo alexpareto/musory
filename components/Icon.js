@@ -29,6 +29,21 @@ const Icon = props => {
           <polyline points="9 22 9 12 15 12 15 22" />
         </svg>
       );
+    case 'search':
+      return (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          strokeWidth="1"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className={props.className}
+        >
+          <circle cx="10.5" cy="10.5" r="7.5" />
+          <line x1="21" y1="21" x2="15.8" y2="15.8" />
+        </svg>
+      );
     case 'lock':
       return (
         <svg

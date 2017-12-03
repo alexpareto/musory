@@ -84,6 +84,7 @@ permissions:
       - id
       - username
       - description
+      - facebookUserId
 
   - operation: User.update
     authenticated: true

@@ -7,27 +7,36 @@ import FacebookLogin from './FacebookLogin';
 import Icon from './Icon';
 
 class Header extends React.Component {
-  renderStory = () => {
+  renderLinks = () => {
     if (this.props.loggedInUser) {
       return (
-        <Link
-          as={`/story/${this.props.loggedInUser.username}`}
-          href={`/story?username=${this.props.loggedInUser.username}`}
-        >
-          <a>
-            <div className="icon">
-              <Icon name="book" />
-              <style jsx>{`
-                .icon {
-                  stroke: #424242;
-                  height: 40px;
-                  width: 40px;
-                  display: inline-block;
-                }
-              `}</style>
-            </div>
-          </a>
-        </Link>
+        <div>
+          <Link
+            as={`/story/${this.props.loggedInUser.username}`}
+            href={`/story?username=${this.props.loggedInUser.username}`}
+          >
+            <a>
+              <div className="icon">
+                <Icon name="book" />
+              </div>
+            </a>
+          </Link>
+          <Link href="/find">
+            <a>
+              <div className="icon">
+                <Icon name="search" />
+              </div>
+            </a>
+          </Link>
+          <style jsx>{`
+            .icon {
+              stroke: #424242;
+              height: 40px;
+              width: 40px;
+              display: inline-block;
+            }
+          `}</style>
+        </div>
       );
     }
     return null;
@@ -38,37 +47,30 @@ class Header extends React.Component {
       <div className="holder">
         <div className="container">
           <div className="link-container">
-            <div className="links">
-              <Link href="/home">
-                <a>
-                  <div className="icon">
-                    <Icon name="home" />
-                  </div>
-                </a>
-              </Link>
-              {this.renderStory()}
-            </div>
-            <div className="logo">Musory</div>
+            <div className="center-element" />
+            <Link href="/home">
+              <a>
+                <div className="logo">Musory</div>
+              </a>
+            </Link>
             <div className="fb">
               <FacebookLogin
                 loggedInUser={this.props.loggedInUser}
-                showLogout={true}
+                showLogout={false}
               />
+              <div className="links">{this.renderLinks()}</div>
             </div>
           </div>
         </div>
         <style jsx>{`
-          .icon {
-            stroke: #424242;
-            height: 40px;
-            width: 40px;
-            display: inline-block;
-          }
-
           .logo {
             font-size: 20px;
             line-height: 40px;
             font-weight: bold;
+          }
+
+          .center-element {
+            display: none;
           }
 
           .holder {
@@ -88,16 +90,17 @@ class Header extends React.Component {
           .link-container {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: space-around;
             height: 100%;
+          }
+
+          .links {
+            width: 100%;
+            justify-content: flex-end;
           }
 
           .fb {
             width: 200px;
-          }
-
-          .links {
-            display: none;
           }
 
           /* Larger than mobile */
@@ -105,6 +108,11 @@ class Header extends React.Component {
             .links {
               width: 80px;
               display: inline-block;
+            }
+
+            .center-element {
+              display: inline-block;
+              width: 80px;
             }
 
             .fb {
