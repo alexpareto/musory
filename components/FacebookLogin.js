@@ -38,12 +38,13 @@ class FacebookLogin extends React.Component {
       response => {
         this._facebookCallback(response);
       },
-      { scope: 'public_profile,email' },
+      { scope: 'public_profile,email,user_friends' },
     );
   };
 
   _facebookCallback = async facebookResponse => {
     if (facebookResponse.status === 'connected') {
+      console.log(facebookResponse);
       const facebookToken = facebookResponse.authResponse.accessToken;
       const graphcoolResponse = await this.props.authenticateUserMutation({
         variables: { facebookToken },

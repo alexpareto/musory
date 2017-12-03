@@ -47,14 +47,24 @@ class Story extends React.Component {
   };
 
   _renderFollowButton = () => {
-    if (!this.props.loggedInUser) {
+    if (
+      !this.props.loggedInUser ||
+      this.props.loggedInUser.username == this.props.url.query.username
+    ) {
       return null;
     }
     return (
-      <FollowButton
-        loggedInUser={this.props.loggedInUser}
-        followedUser={this.props.GetUser.User}
-      />
+      <div>
+        <FollowButton
+          loggedInUser={this.props.loggedInUser}
+          followedUser={this.props.GetUser.User}
+        />
+        <style jsx>{`
+          div {
+            margin-bottom: 10px;
+          }
+        `}</style>
+      </div>
     );
   };
 

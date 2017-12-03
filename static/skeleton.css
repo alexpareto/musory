@@ -272,12 +272,14 @@ textarea {
   padding: 16px 10px;
   box-sizing: border-box;
   height: 82px;
+  -webkit-appearance: none;
 }
 
 textarea:focus,
 input:focus {
   outline: 0;
   border: 1px solid #222;
+  -webkit-appearance: none;
 }
 
 @media screen and (-webkit-min-device-pixel-ratio: 0) {

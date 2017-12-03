@@ -20,13 +20,6 @@ class CreatePost extends React.Component {
     autosize(this.textArea);
   }
 
-  _renderButton = () => {
-    if (!this.state.content && !this.state.imageUrl) {
-      return null;
-    }
-    return <Button text="Post" onClick={this._handleCreatePost} />;
-  };
-
   _handleInputChange = event => {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -35,6 +28,12 @@ class CreatePost extends React.Component {
     this.setState({
       [name]: value,
     });
+  };
+
+  _handleKeyUp = e => {
+    if (e.key === 'Enter') {
+      this._handleCreatePost();
+    }
   };
 
   _handleCreatePost = async () => {
@@ -66,7 +65,7 @@ class CreatePost extends React.Component {
     if (this.props.loggedInUser) {
       return (
         <div>
-          <textarea
+          <input
             ref={ref => {
               this.textArea = ref;
             }}
@@ -78,28 +77,25 @@ class CreatePost extends React.Component {
             }
             value={this.state.content}
             onChange={this._handleInputChange}
+            onKeyPress={this._handleKeyUp}
           />
-          <div className="footer">
-            <div className="add-entry-button">{this._renderButton()}</div>
-          </div>
           <style jsx>{`
             div {
               max-width: 500px;
               margin: 0 auto;
-              margin-bottom: 20px;
               box-sizing: border-box;
               padding: 0 16px;
-            }
-
-            .footer {
-              margin-bottom: 20px;
             }
 
             .add-entry-button {
               margin-top: 10px;
             }
 
-            textarea {
+            .footer {
+              text-align: center;
+            }
+
+            input {
               width: 100%;
               display: block;
               resize: none;
@@ -113,7 +109,7 @@ class CreatePost extends React.Component {
               height: 30px;
             }
 
-            textarea:focus,
+            input:focus,
             input:focus {
               outline: 0;
               border: 1px solid #222;

@@ -93,7 +93,7 @@ class Post extends React.Component {
 
             .post-content {
               padding: 10px 16px;
-              white-space: pre-wrap;
+              white-space: pre-line;
             }
           `}</style>
         </div>
@@ -238,7 +238,7 @@ class Post extends React.Component {
           }
 
           div {
-            margin-bottom: 10;
+            padding-bottom: 10px;
           }
         `}</style>
       </div>
@@ -292,6 +292,9 @@ class Post extends React.Component {
             justify-content: space-between;
             align-items: center;
           }
+          div {
+            padding-bottom: 10px;
+          }
         `}</style>
       </div>
     );
@@ -299,6 +302,7 @@ class Post extends React.Component {
 
   _refreshComments = () => {
     this.props.comments.refetch();
+    this.props.afterThoughts.refetch();
   };
 
   _renderPost = () => {
