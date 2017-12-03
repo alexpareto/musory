@@ -69,6 +69,15 @@ class Header extends React.Component {
             font-weight: bold;
           }
 
+          a {
+            color: inherit;
+            text-decoration: none;
+          }
+
+          a:hover {
+            text-decoration: none;
+          }
+
           .center-element {
             display: none;
           }

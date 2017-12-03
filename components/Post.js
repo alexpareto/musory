@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import moment from 'moment';
+import Autolinker from 'autolinker';
 
 import Icon from './Icon';
 import Modal from './Modal';
@@ -85,7 +86,11 @@ class Post extends React.Component {
           </Link>
         </span>
         {this._insertBreak()}
-        {this.props.data.Post.content}
+        <span
+          dangerouslySetInnerHTML={{
+            __html: Autolinker.link(this.props.data.Post.content),
+          }}
+        />
         <style jsx>{`
           .post-header {
             font-weight: bold;
@@ -118,8 +123,11 @@ class Post extends React.Component {
             <a>{comment.author.username}</a>
           </Link>
         </span>
-
-        {comment.content}
+        <span
+          dangerouslySetInnerHTML={{
+            __html: Autolinker.link(comment.content),
+          }}
+        />
         <style jsx>{`
           div {
             padding: 3px 18px;
