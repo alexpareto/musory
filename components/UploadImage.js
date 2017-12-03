@@ -12,22 +12,22 @@ class UploadImage extends React.Component {
   }
 
   _onDrop = (acceptedFiles, rejectedFiles) => {
-    var img = loadImage(
+    loadImage(
       acceptedFiles[0],
-      function(img) {},
+      canvas => {
+        console.log(canvas);
+        this.props.setImage(
+          canvas.toDataURL(),
+          acceptedFiles[0].type,
+          acceptedFiles[0].name.split('.').pop(),
+        );
+      },
       {
         maxWidth: 600,
         orientation: true,
         canvas: true,
         noRevoke: true,
       }, // Options
-    );
-    console.log(img);
-    var dataUrl = img.src;
-    this.props.setImage(
-      dataUrl,
-      acceptedFiles[0].type,
-      acceptedFiles[0].name.split('.').pop(),
     );
   };
 
