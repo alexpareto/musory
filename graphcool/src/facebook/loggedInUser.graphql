@@ -1,6 +1,7 @@
 type LoggedInUserPayload {
   id: ID!
   username: String
+  facebookUserId: String
 }
 
 extend type Query {
