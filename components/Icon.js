@@ -14,6 +14,19 @@ import PropTypes from 'prop-types';
 
 const Icon = props => {
   switch (props.name) {
+    case 'message':
+      return (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </svg>
+      );
     case 'home':
       return (
         <svg
@@ -300,8 +313,6 @@ const Icon = props => {
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
           viewBox="0 0 24 24"
           fill="none"
           strokeWidth="1"
@@ -317,8 +328,6 @@ const Icon = props => {
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
           viewBox="0 0 24 24"
           fill="none"
           strokeWidth="1"
@@ -388,11 +397,9 @@ const Icon = props => {
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
           viewBox="0 0 24 24"
           fill="none"
-          strokeWidth="1"
+          strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
           className={props.className}

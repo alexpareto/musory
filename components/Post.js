@@ -13,8 +13,12 @@ class Post extends React.Component {
     super(props);
     this.state = {
       renderDeleteModal: false,
+      showAddComment: false,
+      showAddAfterThought: false,
+      showDelete: false,
     };
   }
+
   componentDidMount() {
     this.props
       .addViewMutation({
@@ -25,36 +29,6 @@ class Post extends React.Component {
         console.error(error);
       });
   }
-
-  _renderDeleteIcon = () => {
-    if (
-      this.props.loggedInUser &&
-      this.props.data.Post.author.id == this.props.loggedInUser.id
-    ) {
-      return (
-        <a className="post-meta-x" href="#" onClick={this.onClickDelete}>
-          <Icon name="x" />
-          <style jsx>
-            {`
-              .post-meta-x {
-                height: 20px;
-                width: 20px;
-                stroke: #e6e6e6;
-                display: inline-block;
-                padding-right: 20px;
-              }
-
-              .post-meta-x:hover {
-                stroke: #666;
-                transition: all 0.3s ease;
-              }
-            `}
-          </style>
-        </a>
-      );
-    }
-    return null;
-  };
 
   _renderContent = () => {
     if (this.props.data.Post.imageUrl) {
@@ -189,7 +163,7 @@ class Post extends React.Component {
   };
 
   _renderCreateAfterThought = () => {
-    if (this.props.loggedInUser.id !== this.props.data.Post.author.id) {
+    if (!this.state.showAddAfterThought) {
       return null;
     }
     return (
@@ -209,7 +183,8 @@ class Post extends React.Component {
       return <span>Loading</span>;
     } else if (
       this.props.afterThoughts.allComments.length == 0 &&
-      this.props.loggedInUser.id !== this.props.data.Post.author.id
+      (this.props.loggedInUser.id !== this.props.data.Post.author.id ||
+        !this.state.showAddAfterThought)
     ) {
       return null;
     }
@@ -246,7 +221,7 @@ class Post extends React.Component {
   };
 
   _renderCreateComment = () => {
-    if (this.props.loggedInUser.id === this.props.data.Post.author.id) {
+    if (!this.state.showAddComment) {
       return null;
     }
     return (
@@ -265,7 +240,8 @@ class Post extends React.Component {
       return <span>Loading</span>;
     } else if (
       this.props.comments.allComments.length == 0 &&
-      this.props.loggedInUser.id === this.props.data.Post.author.id
+      (this.props.loggedInUser.id === this.props.data.Post.author.id ||
+        !this.state.showAddComment)
     ) {
       return null;
     }
@@ -305,6 +281,50 @@ class Post extends React.Component {
     this.props.afterThoughts.refetch();
   };
 
+  _renderDeleteIcon = () => {
+    if (
+      this.props.loggedInUser &&
+      this.props.data.Post &&
+      this.props.data.Post.author.id == this.props.loggedInUser.id &&
+      this.state.showDelete
+    ) {
+      return (
+        <span className="post-meta-x" href="#" onClick={this.onClickDelete}>
+          <Icon name="x" />
+          <style jsx>
+            {`
+              .post-meta-x {
+                position: absolute;
+                top: 2px;
+                right: 2px;
+                height: 20px;
+                width: 20px;
+                stroke: #e6e6e6;
+                cursor: pointer;
+                padding-left: 7px;
+                display: inline-block;
+                transition: all 0.3s ease;
+              }
+
+              .post-meta-x:hover {
+                stroke: #666;
+              }
+            `}
+          </style>
+        </span>
+      );
+    }
+    return null;
+  };
+
+  _onClickPlus = () => {
+    if (this.props.loggedInUser.id === this.props.data.Post.author.id) {
+      this.setState({ showAddAfterThought: !this.state.showAddAfterThought });
+    } else {
+      this.setState({ showAddComment: !this.state.showAddComment });
+    }
+  };
+
   _renderPost = () => {
     if (this.props.data.loading) {
       return <span>Loading</span>;
@@ -318,14 +338,16 @@ class Post extends React.Component {
             {moment(this.props.data.Post.createdAt).fromNow()}
           </span>
           <div className="actions">
-            {this._renderDeleteIcon()}
+            <span onClick={this._onClickPlus} className="post-meta-icon">
+              <Icon name="message" />
+            </span>
             <Link
               as={`/muse/${this.props.id}`}
               href={`/muse?id=${this.props.id}`}
             >
-              <a className="post-meta-share">
+              <span className="post-meta-icon">
                 <Icon name="share" />
-              </a>
+              </span>
             </Link>
           </div>
         </div>
@@ -343,20 +365,23 @@ class Post extends React.Component {
             align-items: center;
           }
 
-          .post-meta-share {
+          .post-meta-icon {
             height: 20px;
             width: 20px;
             stroke: #e6e6e6;
             display: inline-block;
             transition: all 0.3s ease;
+            padding-left: 7px;
+            cursor: pointer;
           }
 
-          .post-meta-share:hover {
+          .post-meta-icon:hover {
             stroke: #666;
           }
 
           .actions {
             display: flex;
+            flex-direction: row;
             align-items: center;
           }
         `}</style>
@@ -408,6 +433,18 @@ class Post extends React.Component {
     event.stopPropagation();
   };
 
+  onMouseEnter = event => {
+    this.setState({
+      showDelete: true,
+    });
+  };
+
+  onMouseLeave = event => {
+    this.setState({
+      showDelete: false,
+    });
+  };
+
   render() {
     if (!this.props.data.Post && !this.props.data.loading) {
       return (
@@ -426,7 +463,12 @@ class Post extends React.Component {
     }
 
     return (
-      <div className="post-container">
+      <div
+        className="post-container"
+        onMouseEnter={this.onMouseEnter}
+        onMouseLeave={this.onMouseLeave}
+      >
+        {this._renderDeleteIcon()}
         {this.renderModal()}
         {this._renderPost()}
         <style jsx>{`
@@ -440,6 +482,7 @@ class Post extends React.Component {
             background-color: #fff;
             border-radius: 3px;
             border: 1px solid #e6e6e6;
+            position: relative;
           }
           div:hover {
           }
