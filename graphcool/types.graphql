@@ -18,6 +18,7 @@ type User @model {
   isFollowedBy: [User!]! @relation(name: "FollowedByUser")
   following: [User!]! @relation(name: "FollowedByUser")
   comments: [Comment!]! @relation(name: "CommentsByUser")
+  subcomments: [SubComment!]! @relation(name: "SubCommentsByUser")
   notifications: [Notification!]! @relation(name: "UserNotifcations")
 }
 
@@ -39,6 +40,16 @@ type Comment @model {
   content: String!
   author: User @relation(name: "CommentsByUser")
   post: Post @relation(name: "PostToComments")
+  replies: [SubComment!]! @relation(name: "CommentToReplies")
+  createdAt: DateTime! # read-only (managed by Graphcool)
+  updatedAt: DateTime! # read-only (managed by Graphcoolg)
+}
+
+type SubComment @model {
+  id: ID! @isUnique
+  content: String!
+  author: User @relation(name: "SubCommentsByUser")
+  comment: Comment @relation(name: "CommentToReplies")
   createdAt: DateTime! # read-only (managed by Graphcool)
   updatedAt: DateTime! # read-only (managed by Graphcoolg)
 }

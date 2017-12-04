@@ -2,22 +2,23 @@ import { fromEvent } from 'graphcool-lib';
 
 export default async event => {
   try {
+    const subComment = event.data.SubComment.node;
     const graphcool = fromEvent(event);
     const api = graphcool.api('simple/v1');
+    const url = '/muse?id=' + subComment.comment.post.id;
 
-    // don't create a notification for commenting on their own post
-    if (
-      event.data.Comment.node.author.id ===
-      event.data.Comment.node.post.author.id
-    ) {
-      return;
+    if (subComment.author.id === subComment.comment.post.author.id) {
+      // send notification to comment author
+      const content = subComment.author.username + ' replied to your comment';
+      const targetUserId = subComment.comment.author.id;
+      await addNotification(api, content, url, targetUserId);
+    } else if (subComment.author.id === subComment.comment.author.id) {
+      // send notification to post author
+      const content =
+        subComment.author.username + ' replied to their comment your muse';
+      const targetUserId = subComment.comment.post.author.id;
+      await addNotification(api, content, url, targetUserId);
     }
-
-    const content =
-      event.data.Comment.node.author.username + ' replied to your muse';
-    const url = '/muse?id=' + event.data.Comment.node.post.id;
-    const targetUserId = event.data.Comment.node.post.author.id;
-    await addNotification(api, content, url, targetUserId);
     return;
   } catch (e) {
     console.log(e);

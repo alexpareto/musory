@@ -49,6 +49,12 @@ functions:
         src: ./src/functions/addNotification.js
     type: subscription
     query: ./src/functions/createComment.graphql
+  addSubCommentNotification:
+    handler:
+      code:
+        src: ./src/functions/addSubCommentNotification.js
+    type: subscription
+    query: ./src/functions/createSubComment.graphql
 
 
 # Model/Relation permissions are used to limit the API access
@@ -102,6 +108,7 @@ permissions:
       - description
       - following
       - comments
+      - subcomments
 
   - operation: FollowedByUser.connect
     authenticated: true
@@ -123,8 +130,21 @@ permissions:
     authenticated: true
 
   - operation: Comment.read
+    authenticated: true
 
   - operation: Comment.update
+    authenticated: true
+
+  - operation: SubComment.create
+    authenticated: true
+
+  - operation: SubComment.read
+    authenticated: true
+
+  - operation: SubCommentsByUser.connect
+    authenticated: true
+
+  - operation: CommentToReplies.connect
     authenticated: true
 
   - operation: CommentsByUser.connect

@@ -1,0 +1,24 @@
+subscription {
+  SubComment(filter: { mutation_in: [CREATED] }) {
+    node {
+      id
+      content
+      author {
+        id
+        username
+      }
+      comment {
+        id
+        author {
+          id
+        }
+        post {
+          id
+          author {
+            id
+          }
+        }
+      }
+    }
+  }
+}

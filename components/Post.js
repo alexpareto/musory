@@ -8,6 +8,7 @@ import Autolinker from 'autolinker';
 import Icon from './Icon';
 import Modal from './Modal';
 import CreateComment from './CreateComment';
+import Comment from './Comment';
 
 class Post extends React.Component {
   constructor(props) {
@@ -104,20 +105,20 @@ class Post extends React.Component {
     );
   };
 
-  renderComment = comment => {
+  _renderAfterThought = afterThought => {
     return (
-      <div key={comment.id}>
+      <div key={afterThought.id}>
         <span className="post-header">
           <Link
-            as={`/story/${comment.author.username}`}
-            href={`/story?username=${comment.author.username}`}
+            as={`/story/${afterThought.author.username}`}
+            href={`/story?username=${afterThought.author.username}`}
           >
-            <a>{comment.author.username}</a>
+            <a>{afterThought.author.username}</a>
           </Link>
         </span>
         <span
           dangerouslySetInnerHTML={{
-            __html: Autolinker.link(comment.content),
+            __html: Autolinker.link(afterThought.content),
           }}
         />
         <style jsx>{`
@@ -129,27 +130,19 @@ class Post extends React.Component {
             padding-right: 5px;
           }
 
-          .post-header a {
-            color: inherit;
-            underline: none;
-            text-decoration: none;
+          .icon {
+            height: 20px;
+            width: 20px;
+            stroke: #e6e6e6;
+            display: inline-block;
+            transition: all 0.3s ease;
+            padding-left: 7px;
+            cursor: pointer;
+            float: right;
           }
-        `}</style>
-      </div>
-    );
-  };
 
-  _renderAfterThought = comment => {
-    return (
-      <div key={comment.id}>
-        {comment.content}
-        <style jsx>{`
-          div {
-            padding: 3px 18px;
-          }
-          .post-header {
-            font-weight: bold;
-            padding-right: 5px;
+          .icon:hover {
+            stroke: #666;
           }
 
           .post-header a {
@@ -180,7 +173,7 @@ class Post extends React.Component {
 
   _renderAfterThoughts = () => {
     if (this.props.afterThoughts.loading) {
-      return <span>Loading</span>;
+      return <span />;
     } else if (
       this.props.afterThoughts.allComments.length == 0 &&
       (this.props.loggedInUser.id !== this.props.data.Post.author.id ||
@@ -192,7 +185,7 @@ class Post extends React.Component {
       <div>
         <hr />
         {this.props.afterThoughts.allComments.map(comment =>
-          this.renderComment(comment),
+          this._renderAfterThought(comment),
         )}
         {this._renderCreateAfterThought()}
         <style jsx>{`
@@ -237,7 +230,7 @@ class Post extends React.Component {
 
   _renderComments = () => {
     if (this.props.comments.loading) {
-      return <span>Loading</span>;
+      return <span />;
     } else if (
       this.props.comments.allComments.length == 0 &&
       (this.props.loggedInUser.id === this.props.data.Post.author.id ||
@@ -248,9 +241,14 @@ class Post extends React.Component {
     return (
       <div>
         <hr />
-        {this.props.comments.allComments.map(comment =>
-          this.renderComment(comment),
-        )}
+        {this.props.comments.allComments.map(comment => (
+          <Comment
+            key={comment.id}
+            comment={comment}
+            loggedInUser={this.props.loggedInUser}
+            onPost={this._refreshComments}
+          />
+        ))}
         {this._renderCreateComment()}
         <style jsx>{`
           hr {
@@ -543,6 +541,13 @@ const GET_COMMENTS = gql`
     ) {
       id
       content
+      replies {
+        id
+        content
+        author {
+          username
+        }
+      }
       author {
         username
       }
