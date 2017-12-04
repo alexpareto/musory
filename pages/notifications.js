@@ -122,7 +122,6 @@ class Notifications extends React.Component {
           )}
           {this.renderNoNotifications()}
         </div>
-        <style jsx>{``}</style>
       </Layout>
     );
   }
