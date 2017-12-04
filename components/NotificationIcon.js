@@ -65,5 +65,6 @@ const GET_NOTIFICATION_COUNT = gql`
 export default graphql(GET_NOTIFICATION_COUNT, {
   options: props => ({
     variables: { id: props.loggedInUser.id },
+    pollInterval: 5000,
   }),
 })(NotificationIcon);

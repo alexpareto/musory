@@ -68,6 +68,11 @@ class Notifications extends React.Component {
               justify-content: space-around;
               align-items: center;
               cursor: pointer;
+              transition: all 0.3s ease;
+            }
+
+            .notification-container:hover {
+              border: 1px solid #666;
             }
 
             .notification-new {

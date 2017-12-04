@@ -13,7 +13,8 @@ export default async event => {
       return;
     }
 
-    const content = 'New comment by ' + event.data.Comment.node.author.username;
+    const content =
+      event.data.Comment.node.author.username + ' replied to your post';
     const url = '/muse/' + event.data.Comment.node.post.id;
     const targetUserId = event.data.Comment.node.post.author.id;
     await addNotification(api, content, url, targetUserId);
