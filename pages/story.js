@@ -74,6 +74,19 @@ class Story extends React.Component {
       return <Loading />;
     }
 
+    if (!this.props.GetUser.User) {
+      return (
+        <Layout showFooter={true}>
+          <Header loggedInUser={this.props.loggedInUser} url={this.props.url} />
+          <MainContent>
+            <div className="container" style={{ textAlign: 'center' }}>
+              <h4>Sorry that user doesn't exist.</h4>
+            </div>
+          </MainContent>
+        </Layout>
+      );
+    }
+
     return (
       <Layout showFooter={true}>
         <Head>
