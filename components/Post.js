@@ -20,16 +20,7 @@ class Post extends React.Component {
     };
   }
 
-  componentDidMount() {
-    this.props
-      .addViewMutation({
-        variables: { id: this.props.id },
-      })
-      .then(response => {})
-      .catch(error => {
-        console.error(error);
-      });
-  }
+  componentDidMount() {}
 
   _renderContent = () => {
     if (this.props.data.Post.imageUrl) {

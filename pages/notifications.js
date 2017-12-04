@@ -44,7 +44,7 @@ class Notifications extends React.Component {
     if (!notification.viewed) {
       this.props
         .viewNotification({ variables: { id: notification.id } })
-        .then(resp => console.log(resp));
+        .then(resp => {});
     }
     return (
       <Link key={notification.id} href={notification.url}>
