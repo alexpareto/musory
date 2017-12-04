@@ -111,7 +111,7 @@ class Notifications extends React.Component {
       return <Loading />;
     }
     return (
-      <Layout>
+      <Layout showFooter={true}>
         <Header loggedInUser={this.props.loggedInUser} url={this.props.url} />
         <MainContent />
         <div className="container page">

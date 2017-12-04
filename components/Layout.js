@@ -1,11 +1,25 @@
 import React from 'react';
 import Head from 'next/head';
+import { initGA, logPageView } from '../lib/analytics';
+
 /*
 * General component for wrapping pages
 *
 */
 
 class Layout extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+    if (!window.GA_INITIALIZED) {
+      initGA();
+      window.GA_INITIALIZED = true;
+    }
+    logPageView();
+  }
+
   renderFooter() {
     if (!this.props.showFooter) {
       return null;
@@ -25,6 +39,8 @@ class Layout extends React.Component {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: absolute;
+            bottom: 0;
           }
 
           a {
@@ -42,20 +58,13 @@ class Layout extends React.Component {
       </div>
     );
   }
+
   render() {
     return (
       <div className="body">
         <Head>
           <title>Musory</title>
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-            })(window,document,'script','dataLayer','UA-72564929-4');`,
-            }}
-          />
+
           <meta key="og:title" property="og:title" content="Musory" />
           <meta property="og:type" content="website" />
           <meta
@@ -97,16 +106,12 @@ class Layout extends React.Component {
           <link rel="stylesheet" href="/static/normalize.css" />
           <link rel="stylesheet" href="/static/skeleton.css" />
         </Head>
-        <noscript
-          dangerouslySetInnerHTML={{
-            __html: `<iframe src="https://www.googletagmanager.com/gtag/js?id=UA-72564929-4" height="0" width="0" style="display:none;visibility:hidden;"></iframe>`,
-          }}
-        />
         {this.props.children}
         {this.renderFooter()}
         <style jsx>{`
           .body {
             min-height: 100vh;
+            position: relative;
           }
         `}</style>
       </div>

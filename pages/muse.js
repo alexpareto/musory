@@ -26,7 +26,7 @@ class PostPage extends React.Component {
   render() {
     if (this.props.data.Post) {
       return (
-        <Layout>
+        <Layout showFooter={true}>
           <Head>
             <meta
               name="og:title"

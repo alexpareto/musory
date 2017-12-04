@@ -75,7 +75,7 @@ class Story extends React.Component {
     }
 
     return (
-      <Layout>
+      <Layout showFooter={true}>
         <Head>
           <meta
             name="og:title"

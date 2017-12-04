@@ -31,7 +31,7 @@ class Home extends React.Component {
 
   render() {
     return (
-      <Layout>
+      <Layout showFooter={true}>
         <div className="username-holder">
           <div>
             <span>
