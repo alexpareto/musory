@@ -159,6 +159,10 @@ class Story extends React.Component {
             font-weight: bold;
           }
 
+          .story-description {
+            margin-bottom: 20px;
+          }
+
           .story-about {
             text-align: center;
           }

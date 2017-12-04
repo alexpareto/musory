@@ -130,7 +130,6 @@ permissions:
     authenticated: true
 
   - operation: Comment.read
-    authenticated: true
 
   - operation: Comment.update
     authenticated: true

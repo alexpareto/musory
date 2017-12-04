@@ -40,7 +40,7 @@ class AddUsername extends React.Component {
     }
 
     const id = this.props.loggedInUser.id;
-    const username = this.state.username;
+    const username = this.state.username.replace(/\s/g, '');
 
     const response = await this.props.AddUsernameMutation({
       variables: { id: id, username: username },
