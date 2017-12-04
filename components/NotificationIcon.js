@@ -6,9 +6,6 @@ import Link from 'next/link';
 import Icon from './Icon';
 
 const NotificationIcon = props => {
-  if (!props.data.loading) {
-    console.log(props.data);
-  }
   if (!props.data.loading && props.data._allNotificationsMeta.count != 0) {
     return (
       <Link href="/notifications">

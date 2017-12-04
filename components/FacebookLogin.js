@@ -44,7 +44,6 @@ class FacebookLogin extends React.Component {
 
   _facebookCallback = async facebookResponse => {
     if (facebookResponse.status === 'connected') {
-      console.log(facebookResponse);
       const facebookToken = facebookResponse.authResponse.accessToken;
       const graphcoolResponse = await this.props.authenticateUserMutation({
         variables: { facebookToken },

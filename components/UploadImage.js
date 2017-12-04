@@ -1,6 +1,5 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
-import gql from 'graphql-tag';
 import Dropzone from 'react-dropzone';
 import loadImage from 'blueimp-load-image';
 
@@ -15,7 +14,6 @@ class UploadImage extends React.Component {
     loadImage(
       acceptedFiles[0],
       canvas => {
-        console.log(canvas);
         this.props.setImage(
           canvas.toDataURL(),
           acceptedFiles[0].type,
