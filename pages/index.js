@@ -31,7 +31,7 @@ class Index extends React.Component {
     }
 
     return (
-      <Layout>
+      <Layout showFooter={true}>
         <Header loggedInUser={this.props.loggedInUser} url={this.props.url} />
         <div className="section">
           <div className="container">

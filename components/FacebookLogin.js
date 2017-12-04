@@ -81,12 +81,17 @@ class FacebookLogin extends React.Component {
   render() {
     if (!this.props.loggedInUser) {
       return (
-        <a href="#" onClick={this._handleFBLogin}>
+        <a onClick={this._handleFBLogin}>
           <img
             src="https://scontent-ort2-2.xx.fbcdn.net/v/t39.2365-6/17639236_1785253958471956_282550797298827264_n.png?oh=499251858fbeca5f9770531c16da6e89&amp;oe=5A89FFEA"
             width="200"
             alt=""
           />
+          <style jsx>{`
+            a {
+              cursor: pointer;
+            }
+          `}</style>
         </a>
       );
     }
@@ -94,15 +99,14 @@ class FacebookLogin extends React.Component {
     if (this.props.showLogout) {
       return (
         <div>
-          <a href="#" onClick={this._logout}>
-            Logout
-          </a>
+          <a onClick={this._logout}>Logout</a>
           <style jsx>{`
             a {
               color: #e6e6e6;
               underline: none;
               text-decoration: none;
               transition: all 0.3s ease;
+              cursor: pointer;
             }
 
             a:hover {

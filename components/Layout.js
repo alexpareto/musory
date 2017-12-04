@@ -28,7 +28,7 @@ class Layout extends React.Component {
       <div className="footer">
         <div />
         <div>
-          <a href="/contact">Contact Us</a>
+          <a href="/contact">Contact</a>
           <a href="https://baroo.io/terms.html">Terms of Service</a>
           <a href="https://baroo.io/privacy.html">Privacy Policy</a>
         </div>
