@@ -18,6 +18,7 @@ type User @model {
   isFollowedBy: [User!]! @relation(name: "FollowedByUser")
   following: [User!]! @relation(name: "FollowedByUser")
   comments: [Comment!]! @relation(name: "CommentsByUser")
+  notifications: [Notification!]! @relation(name: "UserNotifcations")
 }
 
 type Post @model {
@@ -40,4 +41,14 @@ type Comment @model {
   post: Post @relation(name: "PostToComments")
   createdAt: DateTime! # read-only (managed by Graphcool)
   updatedAt: DateTime! # read-only (managed by Graphcoolg)
+}
+
+type Notification @model {
+  id: ID! @isUnique
+  content: String!
+  targetUser: User @relation(name: "UserNotifcations")
+  url: String!
+  viewed: Boolean @defaultValue(value: false)
+  createdAt: DateTime! # read-only (managed by Graphcool)
+  updatedAt: DateTime! # read-only (managed by Graphcool)
 }

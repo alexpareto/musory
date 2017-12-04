@@ -3,6 +3,7 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import Link from 'next/link';
 
+import NotificationIcon from './NotificationIcon';
 import FacebookLogin from './FacebookLogin';
 import Icon from './Icon';
 
@@ -28,6 +29,7 @@ class Header extends React.Component {
               </div>
             </a>
           </Link>
+          <NotificationIcon loggedInUser={this.props.loggedInUser} />
           <style jsx>{`
             .icon {
               stroke: #424242;
@@ -115,7 +117,7 @@ class Header extends React.Component {
           /* Larger than mobile */
           @media (min-width: 400px) {
             .links {
-              width: 80px;
+              width: 120px;
               display: inline-block;
             }
 

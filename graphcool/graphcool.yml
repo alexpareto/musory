@@ -43,6 +43,12 @@ functions:
         src: ./src/functions/signedUrl.js
     type: resolver
     schema: ./src/functions/signedUrl.graphql
+  addNotification:
+    handler:
+      code:
+        src: ./src/functions/addNotification.js
+    type: subscription
+    query: ./src/functions/createComment.graphql
 
 
 # Model/Relation permissions are used to limit the API access
@@ -125,6 +131,13 @@ permissions:
     authenticated: true
 
   - operation: PostToComments.connect
+    authenticated: true
+
+  - operation: Notification.read
+    authenticated: true
+    query: src/permissions/User.graphql:UpdateUserData
+
+  - operation: Notification.update
     authenticated: true
 
 # Your root tokens used for functions to get full access to the API
