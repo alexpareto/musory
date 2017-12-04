@@ -42,7 +42,6 @@ class Friends extends React.Component {
   }
 
   componentDidMount() {
-    console.log('mounted!');
     this._initializeFacebookSDK();
   }
 
@@ -196,7 +195,7 @@ class Friends extends React.Component {
                 onChange={this._handleInputChange}
                 onKeyPress={this._handleKeyPress}
                 value={this.state.name}
-                autocomplete="off"
+                autoComplete="off"
               />
             </div>
             <h4>Your Facebook friends on Musory</h4>

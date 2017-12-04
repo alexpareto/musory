@@ -37,10 +37,6 @@ class Notifications extends React.Component {
   }
 
   renderNotification = notification => {
-    const className = !notification.viewed
-      ? 'notification-container notification-new'
-      : 'notification-container';
-
     if (!notification.viewed) {
       this.props
         .viewNotification({ variables: { id: notification.id } })
@@ -48,7 +44,13 @@ class Notifications extends React.Component {
     }
     return (
       <Link key={notification.id} href={notification.url}>
-        <div key={notification.id} className={className}>
+        <div
+          key={notification.id}
+          className="notification-container"
+          style={{
+            borderColor: !notification.viewed ? '#e5625e' : 'rgba(0,0,0,0)',
+          }}
+        >
           <div>
             <div>{notification.content}</div>
           </div>
