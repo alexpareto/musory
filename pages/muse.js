@@ -54,7 +54,7 @@ class PostPage extends React.Component {
           </Head>
           <Header loggedInUser={this.props.loggedInUser} />
           <MainContent>
-            <div>
+            <div className="container">
               <Post
                 id={this.props.url.query.id}
                 loggedInUser={this.props.loggedInUser}

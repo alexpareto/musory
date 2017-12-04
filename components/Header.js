@@ -11,7 +11,7 @@ class Header extends React.Component {
   renderLinks = () => {
     if (this.props.loggedInUser) {
       return (
-        <div>
+        <div className="links">
           <Link
             as={`/story/${this.props.loggedInUser.username}`}
             href={`/story?username=${this.props.loggedInUser.username}`}
@@ -37,6 +37,19 @@ class Header extends React.Component {
               width: 40px;
               display: inline-block;
             }
+
+            .links {
+              display: flex;
+              justify-content: flex-end;
+            }
+
+            /* Larger than mobile */
+            @media (min-width: 400px) {
+              .links {
+                width: 120px;
+                display: inline-block;
+              }
+            }
           `}</style>
         </div>
       );
@@ -60,7 +73,7 @@ class Header extends React.Component {
                 loggedInUser={this.props.loggedInUser}
                 showLogout={false}
               />
-              <div className="links">{this.renderLinks()}</div>
+              {this.renderLinks()}
             </div>
           </div>
         </div>
@@ -105,22 +118,12 @@ class Header extends React.Component {
             height: 100%;
           }
 
-          .links {
-            width: 100%;
-            justify-content: flex-end;
-          }
-
           .fb {
             width: 200px;
           }
 
           /* Larger than mobile */
           @media (min-width: 400px) {
-            .links {
-              width: 120px;
-              display: inline-block;
-            }
-
             .center-element {
               display: inline-block;
               width: 80px;

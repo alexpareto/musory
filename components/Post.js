@@ -97,6 +97,7 @@ class Post extends React.Component {
           .post-content {
             padding: 10px 16px;
             white-space: pre-wrap;
+            word-wrap: break-word;
           }
         `}</style>
       </div>
