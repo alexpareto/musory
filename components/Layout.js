@@ -63,7 +63,10 @@ class Layout extends React.Component {
         <div className="body">
           <Head>
             <title>Musory</title>
-
+            <meta
+              name="google-site-verification"
+              content="ycvpoSEdC81O44cn9gmx5A-TUK2W-oBEpKpgZkgDj6A"
+            />
             <meta key="og:title" property="og:title" content="Musory" />
             <meta property="og:type" content="website" />
             <meta

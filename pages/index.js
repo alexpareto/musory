@@ -1,6 +1,7 @@
 import React from 'react';
 import withData from '../lib/withData';
 import FacebookLogin from '../components/FacebookLogin';
+import Link from 'next/link';
 
 import redirect from '../lib/redirect';
 import checkLoggedIn from '../lib/checkLoggedIn';
@@ -35,7 +36,7 @@ class Index extends React.Component {
         <div className="section">
           <div className="container">
             <div className="lander-content">
-              <h1>tell your story. your way.</h1>
+              <h1>Tell your story. Your way.</h1>
             </div>
             <div className="fb-login">
               <FacebookLogin loggedInUser={this.props.loggedInUser} />
@@ -49,10 +50,11 @@ class Index extends React.Component {
           <div className="lander-content">
             <div className="container">
               <div className="info-header">
-                <h3>no likes</h3>
-                <h3>no comments</h3>
-                <h3>no character limits</h3>
-                <h3>no numbers</h3>
+                <h3>No likes.</h3>
+                <h3>No public comments.</h3>
+                <h3>No character limits.</h3>
+                <h3>No follower counts.</h3>
+                <h3>No numbers.</h3>
               </div>
             </div>
           </div>
@@ -63,15 +65,22 @@ class Index extends React.Component {
             <div className="container">
               <h3>Share what you want.</h3>
               <p>
-                Create an entry of your thoughts, the crazy thing that happened
-                to you last weekend, that time you got too much sugar from
-                Starbucks, that song that's stuck in your head, when you got the
-                highest grade on a test, what it was like waking up, a perfectly
-                normal dream you had, a passing thought about cacti, whatever.
+                Create a muse of a passing thought, a casual selfie, whatever.
               </p>
+              <p>There are no likes or hearts, no good or bad muses.</p>
               <p>
-                There are no likes because this is not about sharing for others
-                - it's about sharing for you.
+                It's not about sharing for others - it's about sharing for you.
+              </p>
+              <div className="fb-login">
+                <FacebookLogin
+                  loggedInUser={this.props.loggedInUser}
+                  showLogout={false}
+                />
+              </div>
+              <p>
+                <Link href="/about">
+                  <a>Learn more</a>
+                </Link>
               </p>
             </div>
           </div>
@@ -99,7 +108,8 @@ class Index extends React.Component {
           }
 
           p {
-            text-align: justify;
+            text-align: center;
+            font-size: 18px;
           }
 
           .info-header {

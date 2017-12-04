@@ -34,11 +34,11 @@ class About extends React.Component {
         <MainContent>
           <div className="container">
             <div className="content">
-              <h1 className="about-header">about</h1>
+              <h1 className="about-header">About</h1>
               <p>
                 People love to share. It makes sense then that there are a lot
                 of online sharing platforms out there: Facebook, Twitter,
-                Instagram, etc. etc. Yet, to really be clear, those platforms
+                Instagram, and more. Yet, to really be clear, those platforms
                 aren't sharing platforms - they're social media platforms.
               </p>
               <p>
@@ -48,12 +48,14 @@ class About extends React.Component {
                 thoughts forgotten in this so-called quality anxiety.
               </p>
               <p>
-                musory is sharing for you. Make a photo entry. Write a three
-                page story. Share a passing thought. There are no likes or
-                hearts, no good or bad entries, no follower counts. Nothing is
-                off limits. musory exists to help you capture all those moments
-                that maybe aren't perfect enough for the big screen. After all,
-                aren't those the moments that say the most?
+                Musory is sharing for you. Make a photo muse. Write a three page
+                story. Share a passing thought. There are no likes or hearts, no
+                good or bad entries, no follower counts. Nothing is off limits.
+              </p>
+              <p>
+                Musory lets you capture all those moments that maybe aren't
+                perfect enough for the big screen. After all, aren't those the
+                moments that say the most?
               </p>
               <div className="fb-login">
                 <FacebookLogin
@@ -77,6 +79,10 @@ class About extends React.Component {
             border-radius: 3px;
             border: 1px solid #e6e6e6;
             padding: 16px 16px;
+          }
+
+          h1 {
+            text-align: center;
           }
 
           .fb-login {
