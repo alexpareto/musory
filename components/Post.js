@@ -176,7 +176,8 @@ class Post extends React.Component {
       return <span />;
     } else if (
       this.props.afterThoughts.allComments.length == 0 &&
-      (this.props.loggedInUser.id !== this.props.data.Post.author.id ||
+      ((this.props.loggedInUser &&
+        this.props.loggedInUser.id !== this.props.data.Post.author.id) ||
         !this.state.showAddAfterThought)
     ) {
       return null;
@@ -229,7 +230,7 @@ class Post extends React.Component {
   };
 
   _renderComments = () => {
-    if (this.props.comments.loading) {
+    if (this.props.comments.loading || !this.props.loggedInUser) {
       return <span />;
     } else if (
       this.props.comments.allComments.length == 0 &&
@@ -580,7 +581,10 @@ export default compose(
   }),
   graphql(GET_COMMENTS, {
     options: props => ({
-      variables: { postId: props.id, loggedInUser: props.loggedInUser.id },
+      variables: {
+        postId: props.id,
+        loggedInUser: props.loggedInUser ? props.loggedInUser.id : null,
+      },
     }),
     name: 'comments',
   }),
